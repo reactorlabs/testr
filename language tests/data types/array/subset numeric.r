@@ -5,6 +5,10 @@
 a = array(c(1,2,3,4), c(2,2))
 a[c(2,3)]
 
+#! using single dimension fails back to vector subset
+a = array(c(1,2,3,4), c(2,2))
+is.null(dim(a[c(2,3)]))
+
 #! empty indices drops all but dim and dimnames
 #!d but retains all attributes in arrays 
 #!t TRUE 2 2

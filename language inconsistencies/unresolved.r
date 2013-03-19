@@ -94,3 +94,27 @@ as.vector(a)
 a = array(1,c(2,2,2))
 a[1,2,1] = c(10,11,12,13,14,15)
 a
+
+#! error is produced if the lhs cannot be recycled completely
+#!# array/subset character.r
+#!# is only warning for vectors
+#!e number of items to replace is not a multiple of replacement length
+a = array(1:8, c(2,2,2), dimnames=list(c("a","b"),c("c","d"),c("e","f")))
+a[c("a","b"),"c",] = c(10,11,12)
+as.vector(a)
+
+#! update with larger rhs produces a warning
+#!# array/subset matrix -- is error for others
+#!w number of items to replace is not a multiple of replacement length
+#!o 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 -1 17 18 19 -2 21 22 23 24 25 26 27
+a = array(1:27, c(3,3,3))
+a[matrix(1:3,2,3)] = c(-1,-2, -3)
+as.vector(a)
+
+#! update with larger rhs produces a warning
+#!# array/subset matrix -- is error for others
+#!w number of items to replace is not a multiple of replacement length
+#!o 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 -1 17 18 19 -2 21 22 23 24 25 26 27
+a = array(1:27, c(3,3,3))
+a[matrix(1:3,10,3)] = c(-1,-2, -3, -2)
+as.vector(a)
