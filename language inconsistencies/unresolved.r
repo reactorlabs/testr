@@ -57,12 +57,13 @@ attributes(a[])$names
 
 #! empty indices drops all but dim and dimnames
 #!d but retains all attributes in arrays 
-#!t TRUE 2 2
-a = array(1,c(2,2))
+#!t TRUE FALSE FALSE
+a = array(1,c(2,2,2), dimnames=list(c("a","b"),c("c","d"), c("e","f")))
 attributes(a)$xyz = "haha"
 b = a[]
 is.null(attributes(b)$xyz)
-attributes(b)$dim
+is.null(attributes(b)$dim)
+is.null(attributes(b)$dimnames)
 
 #! 0 as a single index produces a vector of size 0 and corresponding type and preserves the dim and names
 #!# array/subset numeric
@@ -118,3 +119,30 @@ as.vector(a)
 a = array(1:27, c(3,3,3))
 a[matrix(1:3,10,3)] = c(-1,-2, -3, -2)
 as.vector(a)
+
+#! empty indices drops all but dim and dimnames
+#!# data types/matrix/subset numeric.r
+#!# but retains all attributes in arrays 
+#!t TRUE FALSE FALSE
+a = matrix(1,2,2, dimnames=list(c("a","b"),c("c","d")))
+attributes(a)$xyz = "haha"
+b = a[]
+is.null(attributes(b)$xyz)
+is.null(attributes(b)$dim)
+is.null(attributes(b)$dimnames)
+
+#! 0 as a single index produces a vector of size 0 and corresponding type and preserves the dim and names
+#!# data types/matrix/subset numeric
+#!# dim and dimnames are dropped, but if vector they are not
+#!g T =    (matrix(TRUE, 3,3) # matrix(1L, 3,3) # matrix(1,3,3) # matrix(1.1,3,3) # matrix(1+1i, 3,3) # matrix(1.1+1.1i, 3,3) # matrix("foo",3,3) )
+#!g V(T) = ("logical"         # "integer"       # "double"      # "double"        # "complex"         # "complex"             # "character")
+#!t 0 @V TRUE TRUE TRUE 
+a = @T
+dimnames(a) = list(c("a","b","c"), c("d","e","f"))
+attributes(a)$xyz = 67
+b = a[0]
+length(b)
+typeof(b)
+length(attributes(b)) == 0
+length(attributes(b)[["dimnames"]]) == 0
+typeof(attributes(b)[["dimnames"]]) == "list"

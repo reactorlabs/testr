@@ -4,17 +4,6 @@
 a = c(a=1, b=2, c=3)
 a["a"] == 1
 
-#! if single dimension only, names are used if present for vector-like indexing
-#t a c f 1 3 6
-a = array(1:27, c(3,3,3))
-names(a) = c("a","b","c","d","e","f","g","h","i","j","k","l")
-a[c("a","c","f")]
-
-#! if single dimension only, names not present, but character indexed returns NAs
-#t NA NA NA
-a = array(1:27, c(3,3,3))
-a[c("a","c","f")]
-
 #! character vectors return the proper elements
 #ttt
 a = c(a=1, b=2, c=3)
