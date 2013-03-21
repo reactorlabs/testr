@@ -1,6 +1,5 @@
 #!# logical vectors as subset indices - p 17, 18 R specification
 
-
 #! simple read selection
 #!t 1 3
 a = c(1,2,3,4)
