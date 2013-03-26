@@ -92,7 +92,3 @@ typeof(@T @O (2+3i))
 #!g O = ( < # <= # >= # > )
 (3+3i) @O (4+7i)
 
-
-#!# binary less than <
-
-
