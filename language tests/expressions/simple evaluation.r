@@ -1,5 +1,16 @@
 #!# simple evaluation of expressions, R language reference, page 10
 
+#! operator < on logicals, integers and doubles
+#!g T = (TRUE # FALSE # 2L # 4 # 3.1)
+#!g V = (10L # 15 # 7.8)
+T < V
+
+#! strings are compared lexicograp
+
+
+
+
+
 #! constants are evaluated to constant vectors of length(1), names == NULL
 #!g T =    (TRUE # FALSE # 0L # 3L # -7L # 2.1 # 0.5 # 1+1i # 1.1+1i # 2+2.1i # 3.1+2.3i # "foo")
 #!g V(T) = (TRUE # FALSE # 0  # 3  # -7  # 2.1 # 0.5 # 1+1i # 1.1+1i # 2+2.1i # 3.1+2.3i # "foo")
@@ -50,8 +61,4 @@ a
 #!# Function calls ----------------------------------------------------------------------------------------------------
 
 #!# Operators ---------------------------------------------------------------------------------------------------------
-
-
-
-
 

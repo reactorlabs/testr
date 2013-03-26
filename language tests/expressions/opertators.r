@@ -45,7 +45,7 @@ a = @T
 #!t fc
 ! as.raw(3)
 
-!# binary minus -------------------------------------------------------------------------------------------------------
+#!# binary minus -------------------------------------------------------------------------------------------------------
 
 #! binary minus operator with logical
 #!g T =    (TRUE # 1L # 2.1 # 3+2i # FALSE # 0L # 0 # 0+0i)
@@ -105,7 +105,7 @@ typeof(4+4i - @T)
 #!g V =    (10L # 4 # 5+2i)
 (@V - @T) != (@T - @V) 
 
-#! binary plus --------------------------------------------------------------------------------------------------------
+#!# binary plus --------------------------------------------------------------------------------------------------------
 
 #! binary plus operator with logical
 #!g T =    (TRUE # 1L # 2.1 # 3+2i)
@@ -165,7 +165,7 @@ typeof(4+4i + @T)
 #!g V =    (10L # 4 # 5+2i)
 (@V + @T) == (@T + @V) 
 
-#! binary multiplication ----------------------------------------------------------------------------------------------
+#!# binary multiplication ----------------------------------------------------------------------------------------------
 
 #! binary mul operator with logical
 #!g T =    (TRUE # 1L # 2.1 # 3+2i)
@@ -225,7 +225,7 @@ typeof(4+4i * @T)
 #!g V =    (10L # 4 # 5+2i)
 ((@V) * (@T)) == ((@T) * (@V))
 
-!# binary division ----------------------------------------------------------------------------------------------------
+#!# binary division ----------------------------------------------------------------------------------------------------
 
 #! binary div operator with logical
 #!g T =    (TRUE # 1L # 2.1       # 2+2i   # (2+2i))
@@ -283,7 +283,7 @@ typeof(4+4i / @T)
 #! binary div operator is not commutative
 #!g T =    (TRUE # 1L # 2.1 # 3+2i)
 #!g V =    (10L # 4 # 5+2i)
-(@V - @T) != (@T - @V) 
+(@V / @T) != (@T / @V) 
 
 #! division by zero is not INF
 #!g V = (FALSE # 0L # 0 # 0+0i)
@@ -294,4 +294,135 @@ typeof(4+4i / @T)
 #! division by zero in pure complex numebers is Nan+Inf
 #!t NaN+Infi
 67+2i / 0+0i
+
+#!# binary exponentiation ----------------------------------------------------------------------------------------------
+
+#! binary exp operator with logical
+#!g T =    (TRUE # 1L # 2.1 # 2+2i   # (2+2i))
+#!g V(T) = (1    # 1  # 1   # 1+2i   # 1+0i)
+#!t @V
+TRUE ^ @T
+
+# binary exp operator with logical - result type
+#!g T =    (TRUE      # 1L        # 2.1      # 2+2i)
+#!g V(T) = ("double" # "double" # "double" # "complex")
+#!t @V
+typeof(TRUE ^ @T)
+
+#! binary exp operator with integer
+#!g T =    (TRUE # 1L # 2.1       # 2+2i   # (2+2i))
+#!g V(T) = (2    # 2  # 4.287094 # 4+2i # 0.733828+3.932111i)
+#!t @V
+2L ^ @T
+
+#! binary exp operator with integer - result type
+#!g T =    (TRUE      #  1L       # 2.1      # 3+2i)
+#!g V(T) = ("double" # "double" # "double" # "complex")
+#!t @V
+typeof(2L ^ @T)
+
+#! binary exp operator with double
+#!g T =    (TRUE # 1L    # 2.1      # 2+2i      # (2+2i))
+#!g V(T) = (10.5  # 10.5 # 139.4754 # 110.25+2i # -1.0626-110.2449i)
+#!t @V
+10.5 ^ @T
+
+#! binary exp operator with double - result type
+#!g T =    (TRUE     # 1L       # 2.1      # 2+2i)
+#!g V(T) = ("double" # "double" # "double" # "complex")
+#!t @V
+typeof(10.5 ^ @T)
+
+#! binary exp operator with complex
+#!g T =    (TRUE # 1L     # 2.1               # 2+2i        # (2+2i))
+#!g V(T) = (4+4i  # 4+4i  # -14.1529-2.87514i # -12+2i      # 4.644881-0.249387i)
+#!t @V
+4+4i ^ @T
+
+#! binary exp operator with complex - result type
+#!g T =    (TRUE     # 1L       # 2.1      # 3+2i)
+#!t "complex"
+typeof(4+4i ^ @T)
+
+#! binary exp operator does not work with raw or string
+#!e non-numeric argument to binary operator
+#!g T =    (TRUE     # 1L       # 2.1      # 3+2i)
+#!g V = ( as.raw(3) # "foo")
+@T ^ @V
+
+#! binary exp operator is not commutative
+#!g T =    (TRUE # 1L # 2.1 # 3+2i)
+#!g V =    (10L # 4 # 5+2i)
+(@V ^ @T) != (@T ^ @V) 
+
+#! exp to 1 is the same number
+#!g T = (TRUE # 0L # 1L # 3L # 2.1 # 2+3i)
+a = @T
+b = a ^ 1
+a == b
+
+#! exp to 0 is one always
+#!g T = (TRUE # 0L # 1L # 3L # 2.1 # 2+3i)
+a = (@T) ^ 0
+a == 1
+
+#!# binary modulo ------------------------------------------------------------------------------------------------------
+
+#! binary mod operator with logical
+#!g T =    (TRUE # 1L # 2.1)
+#!g V(T) = (0    # 0  # 1)
+#!t @V
+TRUE %% @T
+
+# binary mod operator with logical - result type
+#!g T =    (TRUE      # 1L        # 2.1)
+#!g V(T) = ("integer" # "integer" # "double")
+#!t @V
+typeof(TRUE %% @T)
+
+#! binary mod operator with integer
+#!g T =    (TRUE # 1L # 2.1)
+#!g V(T) = (0    # 0  # 1.7)
+#!t @V
+8L %% @T
+
+#! binary mod operator with integer - result type
+#!g T =    (TRUE      #  1L       # 2.1)
+#!g V(T) = ("integer" # "integer" # "double")
+#!t @V
+typeof(2L %% @T)
+
+#! binary mod operator with double
+#!g T =    (TRUE # 1L  # 2.1)
+#!g V(T) = (0.5  # 0.5 # 2.1)
+#!t @V
+10.5 %% @T
+
+#! binary mod operator with double - result type
+#!g T =    (TRUE     # 1L       # 2.1)
+#!g V(T) = ("double" # "double" # "double")
+#!t @V
+typeof(10.5 %% @T)
+
+#! binary mod operator complex mod X does not work
+#!g T =    (TRUE # 1L     # 2.1               # 2+2i        # (2+2i))
+#!e unimplemented complex operation
+(4+4i) %% @T
+
+#! binary mod operator X mod complexdoes not work
+#!g T =    (TRUE # 1L     # 2.1               # 2+2i        # (2+2i))
+#!e unimplemented complex operation
+@T %% (2+3i)
+
+#! binary mod operator does not work with raw or string
+#!e non-numeric argument to binary operator
+#!g T =    (TRUE     # 1L       # 2.1      # 3+2i)
+#!g V = ( as.raw(3) # "foo")
+@T %% @V
+
+#! binary exp operator is not commutative
+#!g T =    (TRUE # 1L # 2.1)
+#!g V =    (10L # 4 # 2.3)
+(@V %% @T) != (@T %% @V) 
+
 

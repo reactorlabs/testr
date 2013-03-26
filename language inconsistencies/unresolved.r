@@ -146,3 +146,10 @@ typeof(b)
 length(attributes(b)) == 0
 length(attributes(b)[["dimnames"]]) == 0
 typeof(attributes(b)[["dimnames"]]) == "list"
+
+#! NaN can be compared with string
+#!# NaN and NAs should be incomparable and always result in NA as the help() says
+#!# expressions/relational operators.r
+#!t "logical"
+#!g O = ( < # <= # == # != # >= # > )
+typeof(NaN @O "foo")
