@@ -153,7 +153,7 @@ typeof(@T @O (2+3i))
 @V == @T
 
 #! empty string is not equal to true or false or NA
-#!t FALSE FALSE FALSE FALSE FALSE NA
+#!t FALSE FALSE NA FALSE FALSE NA
 "" == FALSE
 "" == TRUE
 "" == NA
