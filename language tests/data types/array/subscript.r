@@ -96,7 +96,7 @@ a = array(1:8, c(2,2,2), dimnames=list(c("x1","y1"), c("w1","t1"), c("k1","l1"))
 a[["x","t","l", exact = TRUE]] == 7
 
 #! default partial matching exact arg is NA
-#!d it is actually TRUE in current gnu-r even though manual says NA
+#!dt it is actually TRUE in current gnu-r even though manual says NA
 #!w  partial match of 'x' to 'x1'
 #!w  partial match of 't' to 't1'
 #!w  partial match of 'l' to 'l1' 

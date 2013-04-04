@@ -268,7 +268,7 @@ class TestParser:
 		#!w xxx -- checks for the stderr of the test if it contains "xxx" as a warning. if xxx is empty, checks that no warnings are present
 		#!e xxx -- checks for the stderr of the test if it contains "xxx" as an error and that the test was not successful
 		#!o xxx -- tests the output for xxx
-		#!d xxx -- sets the given decoder, default is vectorSkipWhitespaceDecoder 
+		#!dt xxx -- disables the test for given targets 
 		#!t xxx -- tests that the outputis XXX and that there were no warnings produced. If XXX is none, then XXX is TRUE
 	    """
 
@@ -312,9 +312,10 @@ class TestParser:
 				self._checkedOutput = True
 			elif (cmd == "g"):
 				self._parseGeneric(args)
-			elif (cmd == "d"):
-				print("appending "+args)
-				self._preRun.append('"'+args+'"')
+			elif (cmd == "dt"):
+				self._preRun.append('disableForTarget(self.target,%s)' % args)
+			elif (cmd == "et"):
+				self._preRun.append('checkTargetName(self.target, %s)' % args)
 			else:
 				print("Unknown command %s with arguments %s" % (cmd, args))
 		else: # no args 
@@ -339,7 +340,7 @@ class TestParser:
 				self._postRun.append("assertNoWarning(error)")
 				self._postRun.append("assertOutputIsOnlyTrue(self.target.%s(output), False)" % self._decoder)
 				self._checkedOutput = True
-			elif (cmd == "d"):
+			elif (cmd == "dt"):
 				self._preRun.append("\"Test is disabled\"")
 			else:
 				print("Unknown command %s. Maybe arguments are missing" % cmd)

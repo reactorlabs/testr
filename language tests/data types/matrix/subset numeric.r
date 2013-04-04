@@ -15,7 +15,7 @@ a = matrix(c(1,2,3,4), 2,2)
 is.null(dim(a[c(2,3)]))
 
 #! empty indices drops all but dim and dimnames
-#!d but retains all attributes in matrices 
+#!dt but retains all attributes in matrices 
 #!t TRUE FALSE FALSE
 a = matrix(1,2,2, dimnames=list(c("a","b"),c("c","d")))
 attributes(a)$xyz = "haha"
@@ -81,7 +81,7 @@ length(b)
 typeof(b)
 
 #! 0 as a single index produces a vector of size 0 and corresponding type and preserves the dim and names
-#!d dim and dimnames are dropped, but if vector they are not
+#!dt dim and dimnames are dropped, but if vector they are not
 #!g T =    (matrix(TRUE, 3,3) # matrix(1L, 3,3) # matrix(1,3,3) # matrix(1.1,3,3) # matrix(1+1i, 3,3) # matrix(1.1+1.1i, 3,3) # matrix("foo",3,3) )
 #!g V(T) = ("logical"         # "integer"       # "double"      # "double"        # "complex"         # "complex"             # "character")
 #!t 0 @V TRUE TRUE TRUE 

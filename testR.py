@@ -10,6 +10,13 @@ from target import BaseTarget
 # testR - R testing suite
 
 
+# simple strings so that targets can be named without quotes in tests. When you crate a new target, make sure that it
+# is listed here as well.
+# TODO change this to more robust way.
+gnur32 = "gnur32"
+gnur64 = "gnur64"
+fastr = "fastr"
+
 # ---------------------------------------------------------------------------------------------------------------------
 # simple helper functions
 # ---------------------------------------------------------------------------------------------------------------------
@@ -42,8 +49,8 @@ def error(msg):
 
 class TestR:
 	""" Basic clas for the testing. Runs all tests using the test generator and for each test produces the report. """
-	DEFAULT_TARGET = "gnur"
-	TARGETS = ("gnur", "fastr")
+	DEFAULT_TARGET = "gnur32"
+	TARGETS = ("gnur32", "gnur64", "fastr")
 	OK = "OK"
 	RUN_FAIL = "RUN_FAIL"
 	TEST_FAIL = "FAIL"
@@ -249,8 +256,8 @@ def execute():
 	args = sys.argv
 	if (len(sys.argv) == 1):
 		# make sure we have at least the default arguments selected
-		args = ("","--target=gnur","--verbose","--recursive","language tests") 
-		#args = ("","--target=gnur","--verbose","--recursive","language tests/expressions/operator priority.r") 
+		#args = ("","--target=gnur","--verbose","--recursive","language tests") 
+		args = ("","--target=gnur32","--verbose","--recursive","language tests/expressions/arithmetic operators.r") 
 		#args = ("","--target=fastr","--verbose","--recursive","language tests") 
 	t = TestR(args)
 	t.run()

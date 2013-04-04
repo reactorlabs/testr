@@ -2,10 +2,19 @@ from command import Command
 
 # preRun commands
 
-def checkTargetName(test, supportedTargets):
+def checkTargetName(target, supportedTargets):
 	""" Returns if the current target is supported by the test or not. """
-	if (test.target.name not in supportedTargets):
-		return "Not applicable for target %s, the test is only valid for: %s" % (test.target.name, ", ".join(supportedTargets))
+	if (isinstance(supportedTargets, str)):
+		unsupportedTargets = (supportedTargets, )
+	if (target.name() not in supportedTargets):
+		return "Not applicable for target %s, the test is only valid for: %s" % (target.name(), ", ".join(supportedTargets))
+
+def disableForTarget(target, unsupportedTargets):
+	""" Disables the test if the target matches any of the submitted. """
+	if (isinstance(unsupportedTargets, str)):
+		unsupportedTargets = (unsupportedTargets, )
+	if (target.name() in unsupportedTargets):
+		return "Not applicable for target %s" % (target.name())
 
 
 # postRun commands

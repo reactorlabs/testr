@@ -1,7 +1,7 @@
 #!# integer subsets to vectors, R language reference, p 17 onwards
 
 #! [] with empty indices returns the object keeping only names
-#!d keeps all arguments in R
+#!dt keeps all arguments in R
 #!t TRUE "a" "b" "c"
 a = c(a=1, b=2, c=3)
 attributes(a)$xyz = 67

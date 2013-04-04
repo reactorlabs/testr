@@ -20,7 +20,7 @@ a = array(c(1,2,3,4), c(2,2,2))
 is.null(dim(a[c(2,3)]))
 
 #! empty indices drops all but dim and dimnames
-#!d but retains all attributes in arrays 
+#!dt but retains all attributes in arrays 
 #!t TRUE FALSE FALSE
 a = array(1,c(2,2,2), dimnames=list(c("a","b"),c("c","d"), c("e","f")))
 attributes(a)$xyz = "haha"
@@ -86,7 +86,7 @@ length(b)
 typeof(b)
 
 #! 0 as a single index produces a vector of size 0 and corresponding type and preserves the dim and names
-#!d dim and dimnames are dropped, but if vector they are not
+#!dt dim and dimnames are dropped, but if vector they are not
 #!g T =    (array(TRUE, c(3,3,3)) # array(1L, c(3,3,3)) # array(1,c(3,3,3)) # array(1.1,c(3,3,3)) # array(1+1i, c(3,3,3)) # array(1.1+1.1i, c(3,3,3)) # array("foo",c(3,3,3)) )
 #!g V(T) = ("logical"             # "integer"           # "double"          # "double"            # "complex"             # "complex"                 # "character")
 #!t 0 @V TRUE TRUE TRUE 

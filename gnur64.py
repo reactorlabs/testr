@@ -15,7 +15,7 @@ class Target(BaseTarget):
 	def __init__(self, path = False):
 		""" Creates the gnu-r tester executor. Path arguments specifies the path of the gnu-r executable. Also determines the version and the architecture of the R it points to. """
 		self.path = path if (path) else Target.DEFAULT_PATH
-		self.command = Command(self.path)
+		self.command = Command(self.path+" --arch 64")
 		v = self.command.run("--version")
 		v = v[1].split("\n") if _isWindows else v[0].split("\n")
 		self.version = v[0].strip().split(" ")[2]
@@ -23,7 +23,7 @@ class Target(BaseTarget):
 
 	def name(self):
 		""" Determines the name of the target, that is the GNU R in this case. """
-		return "GNUR"
+		return "gnur64"
 
 	def run(self, code):
 		""" Runs the given code and returns the tuple consisting of stdout, stderr, return code and time the execution took in the same way the Command.run does. """
