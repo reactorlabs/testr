@@ -94,7 +94,7 @@ a = matrix(1:4, 2, 2, dimnames=list(c("x1","y1"), c("w1","t1")))
 a[["x","t", exact = TRUE]] == 3
 
 #! default partial matching exact arg is NA
-#!dt it is actually TRUE in current gnu-r even though manual says NA
+#!dt 
 #!w  partial match of 'x' to 'x1'
 #!w  partial match of 't' to 't1'
 #!o TRUE

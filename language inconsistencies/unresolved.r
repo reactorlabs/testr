@@ -48,7 +48,8 @@ typeof(a)
 
 #! [] with empty indices returns the object keeping only names
 #!# vector/subset integer
-#!dt keeps all arguments in R
+#!dt
+#!# keeps all arguments in R
 #!t TRUE "a" "b" "c"
 a = c(a=1, b=2, c=3)
 attributes(a)$xyz = 67
@@ -56,7 +57,8 @@ length(attributes(a[])) == 1
 attributes(a[])$names
 
 #! empty indices drops all but dim and dimnames
-#!dt but retains all attributes in arrays 
+#!# but retains all attributes in arrays 
+#!dt
 #!t TRUE FALSE FALSE
 a = array(1,c(2,2,2), dimnames=list(c("a","b"),c("c","d"), c("e","f")))
 attributes(a)$xyz = "haha"
@@ -67,7 +69,8 @@ is.null(attributes(b)$dimnames)
 
 #! 0 as a single index produces a vector of size 0 and corresponding type and preserves the dim and names
 #!# array/subset numeric
-#!dt dim and dimnames are dropped, but if vector they are not
+#!dt 
+#!# dim and dimnames are dropped, but if vector they are not
 #!g T =    (array(TRUE, c(3,3,3)) # array(1L, c(3,3,3)) # array(1,c(3,3,3)) # array(1.1,c(3,3,3)) # array(1+1i, c(3,3,3)) # array(1.1+1.1i, c(3,3,3)) # array("foo",c(3,3,3)) )
 #!g V(T) = ("logical"             # "integer"           # "double"          # "double"            # "complex"             # "complex"                 # "character")
 #!t 0 @V TRUE TRUE TRUE 
@@ -154,9 +157,41 @@ typeof(attributes(b)[["dimnames"]]) == "list"
 #!g O = ( < # <= # == # != # >= # > )
 typeof(NaN @O "foo")
 
+
+#!# arithmetic operators ----------------------------------------------------------------------------------------------
+
 #! operator + is commutative for NA and NaN values
 #!et gnur64
 #!# does not run on 64bit targets, works on 32bit targets. This is the bug with NaN payload discussed by Tomas & others in detail in the mailing lists
 #!t NA NA
 NA + NaN
 NaN + NA
+
+#! operator: NaN + complex is NaN
+#!g T = ( 2+3i # -2-3i )
+#!t NaN NaN
+#!dt
+#!# It is actually NA 
+NaN + (@T)
+(@T) + NaN
+
+#! complex one to the power of NA is NA
+#!# but real one to NA is 1
+#!t NA
+a = 1 + 0i
+b = NA
+a ^ b
+
+#! complex one to the power of NaN is NA
+#!# but real 1 to NaN is NaN
+#!t NA
+a = 1 + 0i
+b = NaN
+a ^ b
+
+#! operator ^: NaN ^ complex is NaN
+#!g T = ( 2+3i # -2-3i )
+#!t NaN NaN
+#!# It is actually NA
+NaN ^ (@T)
+(@T) ^ NaN

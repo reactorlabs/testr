@@ -87,7 +87,8 @@ a = list(foo=1, bar=2, foobar=3)
 is.null(a[["b", exact=TRUE]])
 
 #! partial matching exact default value is NA
-#!dt but it is not, default value for gnur is TRUE, lang spec says otherwise
+#!dt
+#!# but it is not, default value for gnur is TRUE, lang spec says otherwise
 a = list(foo=1, bar=2, foobar=3)
 a[["b"]] == 2
 

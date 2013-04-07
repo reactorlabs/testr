@@ -67,7 +67,7 @@ a[["b", exact = FALSE]] <- 8
 
 #! partial matching by default is NA and does partial matching with a warning produced (R Lang ref p-19)
 #!o 2
-#!dt gnu-r has exact to TRUE by default instead of NA specified by the documentation
+#!dt 
 #!w partial match of 'b' to 'bar'
 a = c(foo = 1, bar = 2, foobar = 3)
 a[["b"]]
