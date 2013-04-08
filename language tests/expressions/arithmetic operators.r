@@ -129,6 +129,42 @@ b = 4-3i
 a = a + b
 mode(a)
 
+#! Inf + Inf is Inf
+#!t Inf
+a = Inf
+b = Inf
+a + b
+
+#! Inf + -Inf is NaN
+#!t NaN NaN
+a = Inf
+b = -Inf
+a + b
+b + a
+
+#! NA + Inf is NA
+#!g T = ( Inf # -Inf)
+#!t NA NA
+a = NA
+b = @T
+a + b
+b + a
+
+#! NaN + Inf is NaN
+#!g T = ( Inf # -Inf)
+#!t NaN NaN
+a = NaN
+b = @T
+a + b
+b + a
+
+#! Inf + any number is Inf
+#!g T = ( -300 # 300 )
+#!t Inf
+a = Inf
+b = @T
+a + b
+
 #!# operator - --------------------------------------------------------------------------------------------------------
 
 #! operator - of two logicals or integers is an integer
@@ -221,6 +257,49 @@ a = 2+3i
 b = 4+3i
 a = a + b
 mode(a)
+
+#! Inf - Inf is NaN
+#!t NaN NaN
+a = Inf
+b = -Inf
+a + b
+b + a
+
+#! Inf - (-Inf) is Inf
+#!t Inf
+a = Inf
+b = -Inf
+a - b
+
+#! NA - Inf is NA
+#!g T = ( Inf # -Inf)
+#!t NA NA
+a = NA
+b = @T
+a - b
+b - a
+
+#! NaN - Inf is NaN
+#!g T = ( Inf # -Inf)
+#!t NaN NaN
+a = NaN
+b = @T
+a - b
+b - a
+
+#! Inf - any number is Inf
+#!g T = ( -300 # 300 )
+#!t Inf
+a = Inf
+b = @T
+a - b
+
+#! any number - Inf is -Inf
+#!g T = ( -300 # 300 )
+#!t -Inf
+a = @T
+b = Inf
+a - b
 
 #!# operator * --------------------------------------------------------------------------------------------------------
 
@@ -334,6 +413,73 @@ a = 1i
 b = 1i
 a = a * b
 mode(a)
+
+#! Inf * Inf is Inf
+#!t Inf
+a = Inf
+b = Inf
+a * b
+
+#! Inf * -Inf is -Inf
+#!t -Inf -Inf
+a = Inf
+b = -Inf
+a * b
+b * a
+
+#! -Inf * -Inf is Inf
+#!t Inf
+a = -Inf
+b = -Inf
+a * b
+
+#! NA * Inf is NA
+#!g T = ( Inf # -Inf)
+#!t NA NA
+a = NA
+b = @T
+a * b
+b * a
+
+#! NaN * Inf is NaN
+#!g T = ( Inf # -Inf)
+#!t NaN NaN
+a = NaN
+b = @T
+a * b
+b * a
+
+#! 0 * Inf is NaN
+#!g T = ( Inf # -Inf)
+#!t NaN NaN
+a = 0
+b = @T
+a * b
+b * a
+
+#! number * Inf is Inf
+#!t Inf
+a = 3
+b = Inf
+a * b
+
+#! negative number * Inf is -Inf
+#!t -Inf
+a = -3
+b = Inf
+a * b
+
+#! number * -Inf is -Inf
+#!t -Inf
+a = 3
+b = -Inf
+a * b
+
+#! negative number * -Inf is Inf
+#!t Inf
+a = -3
+b = -Inf
+a * b
 
 #!# operator / --------------------------------------------------------------------------------------------------------
 
@@ -490,6 +636,72 @@ b / a
 #!t NaN
 @T1 / @T2
 
+#! Inf / Inf is NaN
+#!t NaN NaN
+a = Inf
+b = -Inf
+a / b
+b / a
+
+#! Inf / (-Inf) is Inf
+#!t NaN NaN
+a = Inf
+b = -Inf
+a / b
+b / a
+
+#! NA / Inf is NA
+#!g T = ( Inf # -Inf)
+#!t NA NA
+a = NA
+b = @T
+a / b
+b / a
+
+#! NaN / Inf is NaN
+#!g T = ( Inf # -Inf)
+#!t NaN NaN
+a = NaN
+b = @T
+a / b
+b / a
+
+#! Inf / number is Inf
+#!t Inf
+a = Inf
+b = 3
+a / b
+
+#! Inf / negative number is Inf
+#!t -Inf
+a = Inf
+b = -3
+a / b
+
+#! -Inf / number is Inf
+#!t -Inf
+a = -Inf
+b = 3
+a / b
+
+#! -Inf / negative number is Inf
+#!t Inf
+a = -Inf
+b = -3
+a / b
+
+#! number divided by Inf is 0
+#!g T = ( 3 # -3)
+#!t 0
+a = @T
+b = Inf
+a / b
+
+#! sign of the 0 is preserved 
+#!t -Inf
+a = 4 / -Inf
+4 / a
+
 #!# operator %/% ------------------------------------------------------------------------------------------------------
 
 #! operator %/% with any side being complex is an unimplemented operation
@@ -608,6 +820,67 @@ a = 10
 b = 3.6
 a %/% b
 
+#! Inf %/% Inf is NaN
+#!t NaN NaN
+a = Inf
+b = -Inf
+a %/% b
+b %/% a
+
+#! Inf %/% (-Inf) is Inf
+#!t NaN NaN
+a = Inf
+b = -Inf
+a %/% b
+b %/% a
+
+#! NA %/% Inf is NA
+#!g T = ( Inf # -Inf)
+#!t NA NA
+a = NA
+b = @T
+a %/% b
+b %/% a
+
+#! NaN %/% Inf is NaN
+#!g T = ( Inf # -Inf)
+#!t NaN NaN
+a = NaN
+b = @T
+a %/% b
+b %/% a
+
+#! Inf %/% number is NaN
+#!t NaN
+a = Inf
+b = 3
+a %/% b
+
+#! Inf %/% negative number is NaN
+#!t NaN
+a = Inf
+b = -3
+a %/% b
+
+#! -Inf %/% number is NaN
+#!t NaN
+a = -Inf
+b = 3
+a %/% b
+
+#! -Inf %/% negative number is NaN
+#!t NaN
+a = -Inf
+b = -3
+a %/% b
+
+#! number integer divided by Inf is 0
+#!g T = ( 3 # -3)
+#!t 0
+a = @T
+b = Inf
+a / b
+
 #!# operator %% -------------------------------------------------------------------------------------------------------
 
 #! operator %% with any side being complex is an unimplemented operation
@@ -724,6 +997,44 @@ b %% a
 #!t 2.8
 a = 10
 b = 3.6
+a %% b
+
+#! Inf %% any number is NaN
+#!g T = ( 3 # -3 # 0)
+#!t NaN
+a = Inf
+b = @T
+a %% b
+
+#! Inf %% Inf is NaN
+#!g T = ( Inf # -Inf)
+#!t NaN
+a = Inf
+b = @T
+a %% b
+
+#! NA %% Inf is NA
+#!t NA
+a = NA
+b = Inf
+a %% b
+
+#! NaN %% Inf is NaN
+#!t NaN
+a = NaN
+b = Inf
+a %% b
+
+#! Inf %% NA is NA
+#!t NA
+a = Inf
+b = NA
+a %% b
+
+#! Inf %% NaN is NaN
+#!t NaN
+a = Inf
+b = NaN
 a %% b
 
 #!# operator ^ --------------------------------------------------------------------------------------------------------
@@ -850,3 +1161,36 @@ a ^ b
 a = 1 + 0i
 b = NaN
 a ^ b
+
+#! positive number ^ Inf is Inf
+#!t Inf
+3 ^ Inf
+
+#! negative number ^ Inf is NaN
+#!t NaN
+(-3) ^ Inf
+
+#! Inf ^ positive number is Inf
+#!t Inf
+Inf ^ 3
+
+#! Inf ^ negative number is 0
+#!t 0
+Inf ^ -3
+
+#! 0 ^ Inf is 0
+#!t 0
+0 ^ Inf 
+
+#! Inf ^ 0 is 1
+#!t 1
+Inf ^ 0
+
+#! (-Inf) ^ 0 is 1
+#!t 1
+(-Inf) ^ 0
+
+#! 1 ^ Inf is 1
+#!t 1
+1 ^ Inf
+

@@ -195,3 +195,31 @@ a ^ b
 #!# It is actually NA
 NaN ^ (@T)
 (@T) ^ NaN
+
+#! Inf %/% number is NaN
+#!t NaN
+#!# but is inf for normal division
+a = Inf
+b = 3
+a %/% b
+
+#! Inf %/% negative number is NaN
+#!t NaN
+#!# but is inf for normal division
+a = Inf
+b = -3
+a %/% b
+
+#! -Inf %/% number is NaN
+#!t NaN
+#!# but is inf for normal division
+a = -Inf
+b = 3
+a %/% b
+
+#! -Inf %/% negative number is NaN
+#!t NaN
+#!# but is inf for normal division
+a = -Inf
+b = -3
+a %/% b
