@@ -1,5 +1,32 @@
 #!# arithmetic operators, from R help mostly
 
+#!# more complex tests of specific values are not necessary as almost everything apart from 0 is TRUE and this is tested by conversion methods
+
+#!# missing | and & tests where raw is allowed, test warning for recycling, test that they perform bitwise on raw values
+#!# ! and xor missing completely
+
+#! all arithmetic operators work on the full length of the vectors
+#!g T = ( + # - # * # / # %/% # %% # ^ )
+#!t 3
+a = c(10,12,13)
+b = c(1,2,3)
+length(a @T b)
+
+#! all arithmetic operators work on the full length of the vectors, smaller vectors get recycled
+#!g T = ( + # - # * # / # %/% # %% # ^ )
+#!t 6
+a = c(10,12,13, 14, 15, 16)
+b = c(1,2,3)
+length(a @T b)
+
+#! all arithmetic operators work on the full length of the vectors, smaller vectors get recycled, warning is produced if not multiple length
+#!g T = ( + # - # * # / # %/% # %% # ^ )
+#!w longer object length is not a multiple of shorter object length
+#!o 5
+a = c(10,12,13, 14, 15)
+b = c(1,2,3)
+length(a @T b)
+
 #!# operator unary - -------------------------------------------------------------------------------------------------
 
 #! -0 and 0 are the same
@@ -1193,4 +1220,3 @@ Inf ^ 0
 #! 1 ^ Inf is 1
 #!t 1
 1 ^ Inf
-
