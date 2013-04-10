@@ -1,5 +1,449 @@
 #! logical operators (from R help)
 
+#!# attributes in logical operators expressions -----------------------------------------------------------------------
+
+#! custom attributes are not preserved by and or or long or short versions (lhs)
+#!g O = ( && # || # & # | )
+#!ttt
+a = c(1,2,3,4)
+attributes(a) = list(haha=56)
+is.null(attributes(a @O TRUE))
+is.null(attributes(a @O FALSE))
+
+#! custom attributes are not preserved by and or or long or short versions (rhs)
+#!g O = ( && # || # & # | )
+#!ttt
+a = c(1,2,3,4)
+attributes(a) = list(haha=56)
+is.null(attributes(TRUE @O a))
+is.null(attributes(FALSE @O a))
+
+#! custom attributes are not preserved by !
+a = c(1,2,3,4)
+attributes(a) = list(haha=56)
+is.null(attributes(!a))
+
+#! custom attributes are not preserved by xor (lhs)
+#!ttt
+a = c(1,2,3,4)
+attributes(a) = list(haha=56)
+is.null(attributes(xor(a, TRUE)))
+is.null(attributes(xor(a, FALSE)))
+
+#! custom attributes are not preserved by xor (rhs)
+#!ttt
+a = c(1,2,3,4)
+attributes(a) = list(haha=56)
+is.null(attributes(xor(TRUE,a)))
+is.null(attributes(xor(FALSE,a)))
+
+#!# names attribute ---------------------------------------------------------------------------------------------------
+
+#! names attribute is preserved by & and | if the same for both operands
+#!g O = ( & # | )
+#!t "a" "b" "c"
+a = c(a =1, b = 2, c = 3)
+b = c(a =1, b = 2, c = 3)
+names(a @O b)
+
+#! names attribute is preserved by xor if the same for both operands
+#!t "a" "b" "c"
+a = c(a =1, b = 2, c = 3)
+b = c(a =1, b = 2, c = 3)
+names(xor(a,b))
+
+#! names attribute is preserved by !
+#!t "a" "b" "c"
+a = c(a =1, b = 2, c = 3)
+names(!a)
+
+#! names attribute is not preserved for && and ||
+#!g O = ( && # || )
+#!t NULL
+a = c(a =1, b = 2, c = 3)
+b = c(a =1, b = 2, c = 3)
+names(a @O b)
+
+#! if the names are not for whole vector, they are still preserved for the result for & and | 
+#!g O = ( & # | )
+#!t "a" "b" ""
+a = c(a=1, b=2, 3)
+b = c(a=1, b=2, 3)
+names(a @O b)
+
+#! if the names are not for whole vector, they are still preserved for the result for xor
+#!t "a" "b" ""
+a = c(a=1, b=2, 3)
+b = c(a=1, b=2, 3)
+names(xor(a,b))
+
+#! if the names are not for whole vector, they are still preserved for the result for !
+#!t "a" "b" ""
+a = c(a=1, b=2, 3)
+names(!a)
+
+#! if names present in both vectors, names from first vector are used for & and |
+#!g O = ( & # | )
+#!t "a" "b" ""
+a = c(a=1, b=2, 3)
+b = c(a=1, b=2, c=3)
+names(a @O b)
+
+#! if names present in both vectors, names from first vector are used for xor
+#!t "a" "b" ""
+a = c(a=1, b=2, 3)
+b = c(a=1, b=2, c=3)
+names(xor(a,b))
+
+# if names not present in first argument, names from second are used for & and |
+#!g O = ( & # | )
+#!t "a" "b" "c"
+a = c(1, 2, 3)
+b = c(a=1, b=2, c=3)
+names(a @O b)
+
+# if names not present in first argument, names from second are used for xor
+#!t "a" "b" "c"
+a = c(1, 2, 3)
+b = c(a=1, b=2, c=3)
+names(xor(a,b))
+
+#!# dim attribute -----------------------------------------------------------------------------------------------------
+
+#! dim attribute is not preserved by && and ||
+#!g O = ( && # || )
+a = array(1,c(3,3,3))
+b = array(1,c(3,3,3))
+is.null(dim(a @O b))
+
+#! dim attribute is preserved by & and | if both dimensions are the same
+#!g O = ( & # | )
+#!t 3 3 3
+a = array(1,c(3,3,3))
+b = array(1,c(3,3,3))
+dim(a @O b)
+
+#! dim attribute is preserved by xor if both dimensions are the same
+#!t 3 3 3
+a = array(1,c(3,3,3))
+b = array(1,c(3,3,3))
+dim(xor(a,b))
+
+#! dim attribute is preserved by !
+#!t 3 3 3
+a = array(1,c(3,3,3))
+dim(!a)
+
+#! if dim present only in the first argument, it is preserved for & and |
+#!g O = ( & # | )
+#!t 3 3 3
+a = array(1, c(3,3,3))
+b = c(1,2,3)
+dim(a @O b)
+
+#! if dim present only in the first argument, it is preserved for xor
+#!t 3 3 3
+a = array(1, c(3,3,3))
+b = c(1,2,3)
+dim(xor(a,b))
+
+#! if dim present only in the second argument, it is preserved for & and |
+#!g O = ( & # | )
+#!t 3 3 3
+a = array(1, c(3,3,3))
+b = c(1,2,3)
+dim(b @O a)
+
+#! if dim present only in the second argument, it is preserved for xor
+#!t 3 3 3
+a = array(1, c(3,3,3))
+b = c(1,2,3)
+dim(xor(b,a))
+
+#!# dimnames attribute ------------------------------------------------------------------------------------------------
+
+#! dimnames attribute is not preserved by && and ||
+#!g O = ( && # || )
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+is.null(dimnames(a @O b))
+
+#! dimnames attribute is preserved by & and | if both dimensions are the same
+#!g O = ( & # | )
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+a = dimnames(a @O b)
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! dimnames attribute is preserved by xor if both dimensions are the same
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+a = dimnames(xor(a,b))
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! dimnames attribute is preserved by !
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+a = dimnames(!a)
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if dimnames for arguments differ, the first dimnames are used for & and |
+#!g O = ( & # | )
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = array(1,c(2,2,2), dimnames=list(c("A","B"), c("C","D"), c("E","F")))
+a = dimnames(a @O b)
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if dimnames for arguments differ, the first dimnames are used for xor
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = array(1,c(2,2,2), dimnames=list(c("A","B"), c("C","D"), c("E","F")))
+a = dimnames(xor(a,b))
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if first dimnames are missing, second argument's dimnames are used for resulr for & and |
+#!g O = ( & # | )
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2))
+b = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+a = dimnames(a @O b)
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if first dimnames are missing, second argument's dimnames are used for result for xor
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2))
+b = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+a = dimnames(xor(a,b))
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if dimnames present only in the first argument, it is preserved for & and |
+#!g O = ( & # | )
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = array(1,c(2,2,2))
+a = dimnames(a @O b)
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if dim present only in the first argument, it is preserved for xor
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = array(1,c(2,2,2))
+a = dimnames(xor(a,b))
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if second argument is not array, dimnames of the first are used for & and |
+#!g O = ( & # | )
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = c(1,2)
+a = dimnames(a @O b)
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if second argument is not array, dimnames of the first are used for xor
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = c(1,2)
+a = dimnames(xor(a,b))
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if first argument is not array, dimnames of the second are used for & and |
+#!g O = ( & # | )
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = c(1,2)
+a = dimnames(b @O a)
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if first argument is not array, dimnames of the second are used for xor
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = c(1,2)
+a = dimnames(xor(b,a))
+a[[1]]
+a[[2]]
+a[[3]]
+
+#!# logical operators and data types other than vectors ---------------------------------------------------------------
+
+#!# matrices ----------------------------------------------------------------------------------------------------------
+
+#! matrices can be used for unary !
+a = matrix(1,2,2)
+length(!a) == 4
+
+#! matrices can be used for binary operator xor
+a = matrix(1,2,2)
+b = matrix(0,2,2)
+length(xor(a,b)) == 4 
+
+#! matrices can be used for binary logical operators (short versions)
+#!g O = ( & # | )
+a = matrix(1,2,2)
+b = matrix(0,2,2)
+length(a @O b) == 4 
+
+#! matrices can be used for binary logical operators (long versions)
+#!g O = ( && # ||)
+a = matrix(1,2,2)
+b = matrix(0,2,2)
+length(a @O b) == 1
+
+#! matrices and vectors can be combined for xor
+a = matrix(1,2,2)
+b = c(1,2,3,4)
+length(xor(a,b)) == 4
+
+#! matrices and vectors can be combined for binary logical operators (short versions)
+#!g O = ( & # | )
+a = matrix(1,2,2)
+b = c(1,2,3,4)
+length(a @O b) == 4 
+length(b @O a) == 4 
+
+#! matrices and vectors can be combined for binary logical operators (long versions)
+#!g O = ( & # | )
+a = matrix(1,2,2)
+b = c(1,2,3,4)
+length(a @O b) == 4 
+length(b @O a) == 4 
+
+#! matrices of different dimensions cannot be used for short operators (& and |)
+#!g O = ( & # | )
+#!e binary operation on non-conformable arrays
+a = matrix(1, 2,2)
+b = matrix(1, 4,2)
+a @O b
+
+#! matrices of different dimensions cannot be used for operator xor
+#!e binary operation on non-conformable arrays
+a = matrix(1, 2,2)
+b = matrix(1, 4,2)
+xor(a,b)
+
+#! matrices of different dimensions can be used for long operators (&& and ||)
+#!g O = ( && # || )
+a = matrix(1, 2,2)
+b = matrix(1, 4,2)
+length(a @O b) == 1
+
+#!# arrays ------------------------------------------------------------------------------------------------------------
+
+#! arrays can be used for unary !
+a = array(1,c(3,3,3))
+length(!a) == 27
+
+#! arrays can be used for binary operator xor
+a = array(1,c(3,3,3))
+b = array(0,c(3,3,3))
+length(xor(a,b)) == 27
+
+#! arrays can be used for binary logical operators (short versions)
+#!g O = ( & # | )
+a = array(1,c(3,3,3))
+b = array(0,c(3,3,3))
+length(a @O b) == 27 
+
+#! arrays can be used for binary logical operators (long versions)
+#!g O = ( && # ||)
+a = array(1,c(3,3,3))
+b = array(0,c(3,3,3))
+length(a @O b) == 1
+
+#! arrays and vectors can be combined for xor
+a = array(1,c(2,2,2))
+b = c(1,2,3,4)
+length(xor(a,b)) == 8
+
+#! arrays and vectors can be combined for binary logical operators (short versions)
+#!g O = ( & # | )
+a = array(1,c(2,2,2))
+b = c(1,2,3,4)
+length(a @O b) == 8 
+length(b @O a) == 8 
+
+#! arrays and vectors can be combined for binary logical operators (long versions)
+#!g O = ( & # | )
+a = array(1,c(2,2,2))
+b = c(1,2,3,4)
+length(a @O b) == 8 
+length(b @O a) == 8 
+
+#! arrays of different dimensions cannot be used for short operators (& and |)
+#!g O = ( & # | )
+#!e binary operation on non-conformable arrays
+a = array(1, c(2,2,2))
+b = array(1, c(4,2,2))
+a @O b
+
+#! arrays of different dimensions cannot be used for operator xor
+#!e binary operation on non-conformable arrays
+a = array(1, c(2,2,2))
+b = array(1, c(4,2,2))
+xor(a,b)
+
+#! arrays of different dimensions can be used for long operators (&& and ||)
+#!g O = ( && # || )
+a = array(1, c(2,2,2))
+b = array(1, c(4,2,2))
+length(a @O b) == 1
+
+#!# lists -------------------------------------------------------------------------------------------------------------
+
+#! lists cannot be used for unary !
+#!e invalid argument type
+a = list(1,2,3)
+!a
+
+#! lists cannot be used for xor
+#!e operations are possible only for numeric, logical or complex types
+a = list(1,2,3)
+b = list(1,2,3)
+xor(a,b)
+
+#! lists cannot be used for binary logical operators (long versions)
+#!g O = ( && # || )
+#!e invalid 'x' type in 'x @O y'
+a = list(1,2,3)
+b = list(1,2,3)
+a @O b
+
+#! lists cannot be used for binary logical operators (short versions)
+#!g O = ( & # | )
+#!e operations are possible only for numeric, logical or complex types
+a = list(1,2,3)
+b = list(1,2,3)
+a @O b
+
+
+
+
 
 #!# unary operator ! --------------------------------------------------------------------------------------------------
 
