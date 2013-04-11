@@ -256,8 +256,8 @@ def execute():
 	args = sys.argv
 	if (len(sys.argv) == 1):
 		# make sure we have at least the default arguments selected
-		#args = ("","--target=gnur32","--verbose","--recursive","language tests") 
-		args = ("","--target=gnur32","--verbose","--recursive","language tests/expressions/logical operators.r") 
+		args = ("","--target=gnur32","--verbose","--recursive","language tests") 
+		#args = ("","--target=gnur32","--verbose","--recursive","language tests/expressions/arithmetic operators.r") 
 		#args = ("","--target=fastr","--verbose","--recursive","language tests") 
 	t = TestR(args)
 	t.run()

@@ -2,30 +2,317 @@
 
 #!# more complex tests of specific values are not necessary as almost everything apart from 0 is TRUE and this is tested by conversion methods
 
-#!# missing | and & tests where raw is allowed, test warning for recycling, test that they perform bitwise on raw values
-#!# ! and xor missing completely
+#!# arithmetic operators and data types -------------------------------------------------------------------------------
 
-#! all arithmetic operators work on the full length of the vectors
-#!g T = ( + # - # * # / # %/% # %% # ^ )
-#!t 3
-a = c(10,12,13)
-b = c(1,2,3)
-length(a @T b)
+#! vector can be used for unary -
+a = c(1,2,3,4,5)
+b = -a
+TRUE
 
-#! all arithmetic operators work on the full length of the vectors, smaller vectors get recycled
-#!g T = ( + # - # * # / # %/% # %% # ^ )
-#!t 6
-a = c(10,12,13, 14, 15, 16)
-b = c(1,2,3)
-length(a @T b)
+#! operator unary - works element wise on vectors
+#!t 5
+a = c(1,2,3,4,5)
+length(-a)
 
-#! all arithmetic operators work on the full length of the vectors, smaller vectors get recycled, warning is produced if not multiple length
-#!g T = ( + # - # * # / # %/% # %% # ^ )
+#! operator unary - works on matrices
+a = matrix(1,3,3)
+b = -a
+TRUE
+
+#! operator unary - works on matrices elementwise
+#!t 9
+a = matrix(1,3,3)
+length(!a)
+
+#! operator unary - works on arrays
+a = array(1,c(2,2,2))
+b = -a
+TRUE
+
+#! operator unary - works on arrays elementwise
+#!t 8
+a = array(1,c(2,2,2))
+length(-a)
+
+#! operator unary - cannot be used with lists
+#!e invalid argument to unary operator
+a = list(1,2,3,4)
+-a
+
+#! vector can be used for binary arithmetic operators
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+a = c(1,2,3,4,5)
+b = c(1,2,3,4,5)
+a = a @O b
+TRUE
+
+#! binary arithmetic operators work on vectors elementwise
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 5
+a = c(1,2,3,4,5)
+b = c(1,2,3,4,5)
+length(a @O b)
+
+#! smaller vector gets recycled
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!g T(O) = ( 15 33 # 9 27 # 36 90 # 4 10 # 0 0 # 4 10 # 1728 27000)
+#!t @T
+a = c(12,30)
+b = c(3)
+a @O b
+
+#! warning is produced if larger vector is not multiple of smaller
+#!g O = ( + # - # * # / # %% # %/% # ^ )
 #!w longer object length is not a multiple of shorter object length
 #!o 5
-a = c(10,12,13, 14, 15)
+a = c(1,2,3,4,5)
 b = c(1,2,3)
-length(a @T b)
+length(a @O b)
+
+#! matrix can be used for binary arithmetic operators
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+a = matrix(1,2,2)
+b = matrix(1,2,2)
+a = a @O b
+TRUE
+
+#! matrix can be used for binary arithmetic operators, works elementwise
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 4
+a = matrix(1,2,2)
+b = matrix(1,2,2)
+length(a @O b)
+
+#! matrices of different dimensions cannot be used
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!e non-conformable arrays
+a = matrix(1,2,2)
+b = matrix(1,4,2)
+a @O b
+
+#! array can be used for binary arithmetic operators
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+a = array(1,c(2,2,2))
+b = array(1,c(2,2,2))
+a = a @O b
+TRUE
+
+#! arrays can be used for binary arithmetic operators, works elementwise
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 8
+a = array(1,c(2,2,2))
+b = array(1,c(2,2,2))
+length(a @O b)
+
+#! arrays of different number of dimensions cannot be used for binary arithmetic operatirs
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!e non-conformable arrays
+a = array(1,c(2,2,2))
+b = array(1,c(2,2,2,2))
+a @O b
+
+#! arrays of different dimensions cannot be used for arithmetic operators
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!e non-conformable arrays
+a = array(1,c(2,2,2))
+b = array(1,c(2,4,2))
+a @O b
+
+#!# to observe the result of vector+ array, see propagation of dim attribute later in this file
+
+#! arrays and vectors can be used for binary operators (array lhs)
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 8
+a = array(1,c(2,2,2))
+b = c(1,2)
+length(a @O b)
+
+#! arrays and vectors can be used for binary operators (array rhs)
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 8
+a = array(1,c(2,2,2))
+b = c(1,2)
+length(a @O b)
+
+#! lists cannot be used for arithmetic operators
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!e non-numeric argument to binary operator
+a = list(1,2,3)
+b = list(3,4,5)
+a @O b
+
+#! lists and vectors cannot be used for binary operators (list lhs)
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!e non-numeric argument to binary operator
+a = list(1,2,3)
+b = c(1,2,3)
+a @O b
+
+#! lists and vectors cannot be used for binary operators (list rhs)
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!e non-numeric argument to binary operator
+a = list(1,2,3)
+b = c(1,2,3)
+b @O a
+
+#!# user attributes ---------------------------------------------------------------------------------------------------
+
+#! custom attributes are preserved by unary minus
+#!t 56
+a = c(1,2,3,4)
+attributes(a) = list(haha=56)
+attributes(-a)$haha
+
+#! custom attributes are preserved by binary arithmetics if the same and unified if value is the same
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 56 1
+a = c(1,2,3,4)
+b = c(1,2,3,4)
+attributes(a) = list(haha=56)
+attributes(b) = list(haha=56)
+attributes(a @O b)$haha
+length(attributes(a @O b))
+
+#! custom attributes are preserved by binary arithmetics if different and their union is in result
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 2 56 78
+a = c(1,2,3,4)
+b = c(1,2,3,4)
+attributes(a) = list(haha=56)
+attributes(b) = list(habubu=78)
+length(attributes(a @O b))
+attributes(a @O b)$haha
+attributes(a @O b)$habubu
+
+#! when attribute names are the same and values differ, values from left argument are used for binary arithmetics
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 1 56
+a = c(1,2,3,4)
+b = c(1,2,3,4)
+attributes(a) = list(haha=56)
+attributes(b) = list(haha=78)
+length(attributes(a @O b))
+attributes(a @O b)$haha
+
+#!# names attribute ---------------------------------------------------------------------------------------------------
+
+#! names attribute is preserved by unary -
+#!t "a" "b" "c"
+a = c(a =1, b = 2, c = 3)
+names(-a)
+
+#! if the names are not for whole vector, they are still preserved for the result for unary minus
+#!t "a" "b" ""
+a = c(a=1, b=2, 3)
+names(-a)
+
+#! names attribute is preserved by binary arithmetics if  the same for both operands
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t "a" "b" "c"
+a = c(a =1, b = 2, c = 3)
+b = c(a =1, b = 2, c = 3)
+names(a @O b)
+
+#! if the names are not for whole vector, they are still preserved for the result for binary arithmetics
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t "a" "b" ""
+a = c(a=1, b=2, 3)
+b = c(a=1, b=2, 3)
+names(a @O b)
+
+#! if names present in both vectors, names from first vector are used for binary arithmetics
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t "a" "b" ""
+a = c(a=1, b=2, 3)
+b = c(a=1, b=2, c=3)
+names(a @O b)
+
+# if names not present in first argument, names from second are used for binary arithmetics
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t "a" "b" "c"
+a = c(1, 2, 3)
+b = c(a=1, b=2, c=3)
+names(a @O b)
+
+#!# dim attribute -----------------------------------------------------------------------------------------------------
+
+#! dim attribute is preserved by unary -
+#!t 1 2 3
+a = array(1,c(1,2,3))
+dim(-a)
+
+#! dim attribute is preserved by binary arithmetics
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 1 2 3
+a = array(1,c(1,2,3))
+b = array(1,c(1,2,3))
+dim(a @O b)
+
+# if dim not present in first argument, dim from second are used for binary arithmetics
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 1 2 3
+a = c(1, 2, 3)
+b = array(1,c(1,2,3))
+dim(a @O b)
+
+# if dim not present in second argument, dim from first are used for binary arithmetics
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t 1 2 3
+a = c(1, 2, 3)
+b = array(1,c(1,2,3))
+dim(b @O a)
+
+#! when dim argument is present in left argument, names from right argument are not used
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+a = c(a=1, b=2, c=3)
+b = array(1,c(1,2,3))
+is.null(names(b @O a))
+
+#! when dim argument is present in right argument, names from left argument are not used
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+a = c(a=1, b=2, c=3)
+b = array(1,c(1,2,3))
+is.null(names(a @O b))
+
+#! dimnames attribute -------------------------------------------------------------------------------------------------
+
+#! dimnames attribute is preserved by unary minus
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+a = dimnames(-a)
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! dimnames attribute is preserved by binary arithmetics if both dimensions are the same
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+a = dimnames(a @O b)
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if dimnames for arguments differ, the first dimnames are used for binary arithmetics
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+b = array(1,c(2,2,2), dimnames=list(c("A","B"), c("C","D"), c("E","F")))
+a = dimnames(a @O b)
+a[[1]]
+a[[2]]
+a[[3]]
+
+#! if first dimnames are missing, second argument's dimnames are used for resulr for binary arithmetics
+#!g O = ( + # - # * # / # %% # %/% # ^ )
+#!t "a" "b" "c" "d" "e" "f"
+a = array(1,c(2,2,2))
+b = array(1,c(2,2,2), dimnames=list(c("a","b"), c("c","d"), c("e","f")))
+a = dimnames(a @O b)
+a[[1]]
+a[[2]]
+a[[3]]
 
 #!# operator unary - -------------------------------------------------------------------------------------------------
 
