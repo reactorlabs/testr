@@ -9,7 +9,7 @@ from target import BaseTarget
 class Target(BaseTarget):
 	""" Target adapter for the fastr. Is capable of running the given tests on the VM in console mode. Provides input capture and vector decoder functions for easy tests. """
 
-	DEFAULT_PATH = "fastr_linux.sh"
+	DEFAULT_PATH = "./fastr"
 
 	def __init__(self, path = False):
 		""" Creates the fastr tester executor. Path arguments specifies the path of the gnu-r executable. Also determines the version and the architecture of the R it points to. """
