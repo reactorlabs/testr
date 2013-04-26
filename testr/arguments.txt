@@ -1,0 +1,8 @@
+#-verbose
+-t=gnur32
+-t=gnur64
+-n=8
+-m=test
+-showOnlyErrors
+#-suite=sandbox/multithreaded.r
+-suite=language tests/builtins
