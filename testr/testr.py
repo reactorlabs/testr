@@ -67,12 +67,16 @@ def readArguments():
 	""" Parses the arguments given to the testR either on the command line, or in a file to the name/value tuples. Normally, command line arguments are used as a source, however the -include=filename argument can specify that the contents of the given file will be inserted to the arguments stream. These includes can be hierarchical. The included files must specify the command line arguments on a command per line basis."""
 	args=[]
 	writeln("parsing arguments...")
-	for arg in sys.argv[1:]:
-		name, value = readArgument(arg)
-		if (name in ("include", "i")):
-			readArgumentFile(value, args)
-		else:
-			args.append((name, value))
+	if (len(sys.argv)==1):
+		writeln("  no arguments found, including arguments.txt")
+		readArgumentFile("arguments.txt",args)
+	else:
+		for arg in sys.argv[1:]:
+			name, value = readArgument(arg)
+			if (name in ("include", "i")):
+				readArgumentFile(value, args)
+			else:
+				args.append((name, value))
 	return args
 
 def parseArguments(args):

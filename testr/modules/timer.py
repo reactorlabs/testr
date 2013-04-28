@@ -42,7 +42,7 @@ class Module(BaseModule):
 
 	def doParseArgument(self, name, value):
 		if (not super().doParseArgument(name, value)):
-			if (name in ("measurements","m")):
+			if (name in ("measurements","ms")):
 				self._measurements = int(value)
 			else:
 				return False
