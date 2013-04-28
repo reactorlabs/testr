@@ -4,6 +4,7 @@ import testsuite
 import importlib
 import threading
 import targets
+from targets import ExecResult
 import modules
 import time
 
@@ -17,6 +18,12 @@ def writeln(*args, force = False):
 def write(*args, force = False):
 	if (verbose or force):
 		print(*args,end="")
+
+def truncIfLonger(str,length = 80):
+	if (len(str) > length):
+		return "..."+str[-77:]
+	else:
+		return str + " " * (length - len(str))
 
 def fatalError(message):
 	print(message)
@@ -78,7 +85,9 @@ def parseArguments(args):
 	writeln("parsing command line arguments...")
 	while (i < len(args)):
 		name, value = args[i]
-		if (name in ("module", "m")):
+		if (name in ("help","h","?","/help","/h","/?")):
+			help()
+		elif (name in ("module", "m")):
 			try:
 				m = importlib.import_module("modules.{0}".format(value))
 				m = m.Module()
@@ -113,7 +122,6 @@ def parseArguments(args):
 	if (n == None):
 		n = 1
 	return (modules, targets)
-	
 
 def testerThread(modules,targets,testsuite,i):
 	""" """
@@ -122,8 +130,11 @@ def testerThread(modules,targets,testsuite,i):
 		for test in testsuite:
 			for m in modules:
 				for t in targets:
-					tr = t.exec(test)
-					m.analyze(test, tr)
+					while (True):
+						tr = t.exec(test)
+						r = m.analyze(test, tr)
+						if (r != ExecResult.RETRY):
+							break
 	else:
 		for test in testsuite:
 			for m in modules:
@@ -175,7 +186,13 @@ def help():
 testR v 2
 ---------
 
-Test definition & execution framework for the R language. Usage:
+Test definition & execution framework for the R language. Main principles of
+testR are test suites, modules and targets:
+
+Test Suite
+----------
+
+Test suite is a collection of tests. Tests can be organized 
 
 python3 testr.py ARGS testSuite
 
@@ -188,4 +205,9 @@ for their evaluation.
 	sys.exit()
 
 if (__name__=="__main__"):
+	try:
+		if (sys.version_info.major != 3):
+			testr.fatalError("Python3 is required for testr to work!")
+	except:
+		testr.fatalError("Python3 is required for testr to work!")
 	testr()

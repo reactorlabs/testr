@@ -46,16 +46,25 @@ class BaseModule:
 
 	def write(self,*args, force=False):
 		testr.write(*args,force=force)
+		if (self.outputFile):
+			self.outputFile.write("".join([str(i) for i in args]))
 	
 	def writeln(self,*args, force=False):
 		testr.writeln(*args,force=force)
+		if (self.outputFile):
+			self.outputFile.write("".join([str(i) for i in args])+"\n")
 
 
 	def initialize(self, targets):
+		fastr.writeln("  initializing module {0}".format(self.name()))
 		pass
 
 	def analyze(self, test, execResult):
+		""" Analyzes the given test and execResult info from the execution on target. Generally this method is not required to return anything, however, if ExecResult.RETRY is returned, the framework will reexecute the test on the given target and call the analyze method again. This is useful for performance testing & regression modules when averages from multiple runs can be aggregated this way easily. """
 		pass
 
 	def finalize(self):
-		pass
+		fastr.writeln("  finalizing module {0}".format(self.name()))
+		if (self.outputFile):
+			fastr.writeln("    closing output file")
+			outputFile.close()

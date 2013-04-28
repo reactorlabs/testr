@@ -43,7 +43,7 @@ class Module(BaseModule):
 				self._failAfterError = True if value else False
 			else:
 				return False
-			return True
+		return True
 
 	def analyze(self, test, execResult):
 		target = execResult.target
@@ -64,14 +64,14 @@ class Module(BaseModule):
 			if (msg):
 				with (self._lock):
 					self.skipped[self._tlocal.tidx] += 1
-					self.writeln("Test {0} from file {1} skipped for target {2}:".format(test.name(), test.filename(), target.name()))
+					self.writeln("SKIPPED Test {0} from file {1} skipped for target {2}:".format(test.name(), test.filename(), target.name()))
 					self.writeln("  {0}".format(msg))
 					return
 		# check that the execution was a success
 		if (execResult.result != ExecResult.PASS):
 			with (self._lock):
 				self.execFailed[self._tlocal.tidx] += 1
-				self.writeln("Test {0} from file {1} failed to execute for target {2}:".format(test.name(), test.filename(), target.name()), force = self._failAfterError)
+				self.writeln("FAILED  Test {0} from file {1} failed to execute for target {2}:".format(test.name(), test.filename(), target.name()), force = self._failAfterError)
 				self.writeln("  {0}".format(execResult.result), force = self._failAfterError)
 				if (self._failAfterError):
 					testr.fatalError("Terminating after a test error.")
@@ -82,7 +82,7 @@ class Module(BaseModule):
 		if ((execResult.returnCode != Command.SUCCESS) and not output and not error):
 			with (self._lock):
 				self.failed[self._tlocal.tidx] += 1
-				self.writeln("Test {0} from file {1} failed to execute for target {2}:".format(test.name(), test.filename(), target.name()), force = self._failAfterError)
+				self.writeln("FAILED  Test {0} from file {1} failed to execute for target {2}:".format(test.name(), test.filename(), target.name()), force = self._failAfterError)
 				self.writeln("  return code is {0} and no output or error given".format(execResult.returnCode), force = self._failAfterError)
 				if (self._failAfterError):
 					testr.fatalError("Terminating after a test error.")
@@ -93,7 +93,7 @@ class Module(BaseModule):
 			if (msg):
 				with (self._lock):
 					self.failed[self._tlocal.tidx] += 1
-					self.writeln("Test {0} from file {1} failed to execute for target {2}:".format(test.name(), test.filename(), target.name()), force = self._failAfterError)
+					self.writeln("FAILED  Test {0} from file {1} failed to execute for target {2}:".format(test.name(), test.filename(), target.name()), force = self._failAfterError)
 					self.writeln("  {0}".format(msg), force = self._failAfterError)
 					self.writeln("  Output:", force = self._failAfterError)
 					self.writeln("    ".join([ i.strip() for i in output.split("\n")]), force = self._failAfterError)
@@ -106,7 +106,7 @@ class Module(BaseModule):
 		with (self._lock):
 			self.passed[self._tlocal.tidx] += 1
 			if (not self._showOnlyErrors):
-				self.writeln("Test {0} from file {1} passed for target {2}".format(test.name(), test.filename(), target.name()))
+				self.writeln("PASSED  Test {0} from file {1} passed for target {2}".format(test.name(), test.filename(), target.name()))
 
 	def finalize(self):
 		self.writeln("\n----- test module report -----\n", force = True)

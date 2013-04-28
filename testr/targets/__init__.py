@@ -11,6 +11,9 @@ class ExecResult:
 	FAIL = -1
 	# target execution was terminated due to too long execution
 	TIMEOUT = -2
+    # the execution should be retried
+	RETRY = "retry"
+
 
 	def __init__(self, target, result, time, retCode, stdout, stderr, **kwargs):
 		""" Initializes the test result with all required arguments and potential specific arguments for the target listed as keyword arguments. """

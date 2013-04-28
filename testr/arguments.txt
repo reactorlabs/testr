@@ -1,8 +1,10 @@
 #-verbose
 -t=gnur32
 -t=gnur64
--n=8
--m=test
--showOnlyErrors
-#-suite=sandbox/multithreaded.r
--suite=language tests/builtins
+-n=1
+-m=timer
+#-m=test
+#-of=haha.txt
+#-showOnlyErrors
+-suite=sandbox/multithreaded.r
+#-suite=language tests/builtins
