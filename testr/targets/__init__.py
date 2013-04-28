@@ -55,7 +55,8 @@ class BaseTarget:
 		Override this method while calling the inherited one to provide new functionality. 
 	    """
 		if (name in ("path", "p")):
-		    self.path = value
+			testr.writeln("  path changed to {0}".format(value))
+			self.path = value
 		elif (name in ("arg", "a")):
 			if (self.arguments == self.defaultArguments()):
 				self.arguments = [value,]
@@ -71,13 +72,17 @@ class BaseTarget:
 	   
 	   DO NOT OVERRIDE THIS METHOD, override the functionality provided in doParseArgument() and do not forget to call the old method.  """
 		state = 0
-		for arg in args:
+		i = 0
+		while (i < len(args)):
+			arg = args[i]
 			if (state == 0):
-				if ((arg[0] not in ("target","t")) and (arg[1] != self.name())):
-					continue
-				state = 1
+				i += 1
+				if ((arg[0] in ("target","t")) and (arg[1] == self.name())):
+					state = 1
+				continue
 			if (not self.doParseArgument(arg[0], arg[1])):
 				break
+			args.pop(i)
 
 	def initialize(self):
 		testr.writeln("initializing target {0}".format(self.name()))

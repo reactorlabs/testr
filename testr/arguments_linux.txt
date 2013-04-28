@@ -3,10 +3,10 @@
 #-p=R
 -t=gnur_linux
 -p=R
--n=1
+-n=4
 #-m=timer
 -m=test
 #-of=haha.txt
 #-showOnlyErrors
--suite=sandbox/multithreaded.r
+-suite=/home/peta/devel/work/testr/sandbox/multithreaded.r
 #-suite=language tests/builtins

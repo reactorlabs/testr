@@ -23,6 +23,7 @@ class Target(BaseTarget):
 		try:
 			self.command = command.Command(self.path)
 			v = self.command.run(args= self._arguments() + ("--version",))
+			print(v[1])
 			v = v[1].split("\n") if command._isWindows else v[0].split("\n")
 			self.version = v[0].strip().split(" ")[2]
 			if (self.version[0] == "3"):
