@@ -1,12 +1,9 @@
 #-verbose
-#-t=gnur32
+#-t=gnur_linux
 #-p=R
--t=gnur_linux
--p=R
+#-n=4
+-t=fastr_graal
 -n=4
 #-m=timer
 -m=test
-#-of=haha.txt
-#-showOnlyErrors
--suite=/home/peta/devel/work/testr/sandbox/multithreaded.r
-#-suite=language tests/builtins
+-suite=/home/peta/devel/work/testr/graal tests
