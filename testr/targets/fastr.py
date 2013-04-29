@@ -37,8 +37,8 @@ class Target(BaseTarget):
 			testr.fatalError("Target path {0} not found!".format(self.path))
 
 	def exec(self, test):	
-			""" Runs the given test on the target and returns an ExecResult object. """
-#		try:
+		""" Runs the given test on the target and returns an ExecResult object. """
+		try:
 			stdout,stderr,rc,time = self.command.run(args = self.cmdArguments, input = test.code())
 			if (time == "TIMEOUT"):
 				return ExecResult(self,ExecResult.TIMEOUT,0,0,"","")
@@ -67,7 +67,7 @@ class Target(BaseTarget):
 			else:
 				return ExecResult(self, ExecResult.PASS, time, rc, stdout, new_stderr, vmTime = time)
 
-#		except:
+		except:
 			return ExecResult(self,ExecResult.FAIL, 0, 0, "", "")
 
 

@@ -290,6 +290,7 @@ class TestParser:
 		startLine = 1
 		for line in self._f:
 			lineCount += 1
+			sourceLine = line.rstrip()
 			line = line.strip()
 			if (not line):
 				continue # skip empty lines
@@ -306,7 +307,7 @@ class TestParser:
 					lastCommand = True
 			else: # we are no longer parsing commands, but the test lines
 				lastCommand = False
-				code.append(line)
+				code.append(sourceLine)
 		if (code or commands): # if we have either commands, or test lines left, yield the last test
 			yield (commands, code, startLine)
 		self._f.close()

@@ -20,6 +20,7 @@ class Module(BaseModule):
 		self._lock = threading.Lock()
 		self._showOnlyErrors = False
 		self._failAfterError = False
+		self._showCodeOnError = False
 
 	def initialize(self, targets):
 		testr.writeln("  initializing module test")
@@ -41,6 +42,8 @@ class Module(BaseModule):
 				self._showOnlyErrors = True if value else False
 			elif (name in ("failAfterError","fae")):
 				self._failAfterError = True if value else False
+			elif (name in ("showCodeOnError","coe")):
+				self._showCodeOnError = True
 			else:
 				return False
 		return True
@@ -93,12 +96,17 @@ class Module(BaseModule):
 			if (msg):
 				with (self._lock):
 					self.failed[self._tlocal.tidx] += 1
+					self.writeln("-------------------------------------------------------------------------------------------------", force = self._failAfterError)
 					self.writeln("FAILED  Test {0} from file {1} failed to execute for target {2}:".format(test.name(), test.filename(), target.name()), force = self._failAfterError)
-					self.writeln("  {0}".format(msg), force = self._failAfterError)
+					self.writeln("    " + "\n    ".join([ i.rstrip() for i in msg.split("\n")]), force = self._failAfterError)
+					if (self._showCodeOnError):
+						self.writeln("  Code:", force = self._failAfterError)
+						self.writeln("    " + "\n    ".join([i.rstrip() for i in test.code().split("\n")]), force = self._failAfterError)
 					self.writeln("  Output:", force = self._failAfterError)
-					self.writeln("    ".join([ i.strip() for i in output.split("\n")]), force = self._failAfterError)
+					self.writeln("    " + "\n    ".join([ i.rstrip() for i in output.split("\n")]), force = self._failAfterError)
 					self.writeln("  Error:", force = self._failAfterError)
-					self.writeln("    ".join([ i.strip() for i in error.split("\n")]), force = self._failAfterError)
+					self.writeln("    " + "\n    ".join([ i.rstrip() for i in error.split("\n")]), force = self._failAfterError)
+					self.writeln("-------------------------------------------------------------------------------------------------", force = self._failAfterError)
 					if (self._failAfterError):
 						testr.fatalError("Terminating after a test error.")
 					return
