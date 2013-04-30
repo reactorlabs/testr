@@ -41,7 +41,7 @@ class Command:
 		self.command = command
 
 
-	def run(self, args = (), input = None, timeout = 10):
+	def run(self, args = (), input = None, timeout = 30):
 		""" Executes the command with given arguments, possible input, and a timeout in seconds. Returns tuple consisting of standard output and error strings of the command, the return code from Command.Result enum and the duration of the execution. """
 
 		def runner(rec):
@@ -59,11 +59,9 @@ class Command:
 		thread.join(timeout)
 		if (thread.is_alive()):
 			rec.proc.terminate()
-			stdout = ""
-			stderr = ""
-			rc = Command.Result.TIMEOUT
+			return ("","",Command.TIMEOUT, Command.TIMEOUT)
 		else:
 			rc = rec.proc.returncode
 			stdout = rec.procOutput[0].decode("UTF-8")
 			stderr = rec.procOutput[1].decode("UTF-8")
-		return (stdout, stderr, rc, rec.time)
+			return (stdout, stderr, rc, rec.time)

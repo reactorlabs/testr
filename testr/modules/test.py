@@ -75,7 +75,10 @@ class Module(BaseModule):
 			with (self._lock):
 				self.execFailed[self._tlocal.tidx] += 1
 				self.writeln("FAILED  Test {0} from file {1} failed to execute for target {2}:".format(test.name(), test.filename(), target.name()), force = self._failAfterError)
-				self.writeln("  {0}".format(execResult.result), force = self._failAfterError)
+				if (execResult.returnCode == ExecResult.TIMEOUT):
+					self.writeln("  TIMEOUT", force = self._failAfterError)
+				else:
+					self.writeln("  {0}".format(execResult.result), force = self._failAfterError)
 				if (self._failAfterError):
 					testr.fatalError("Terminating after a test error.")
 				return
@@ -86,7 +89,10 @@ class Module(BaseModule):
 			with (self._lock):
 				self.failed[self._tlocal.tidx] += 1
 				self.writeln("FAILED  Test {0} from file {1} failed to execute for target {2}:".format(test.name(), test.filename(), target.name()), force = self._failAfterError)
-				self.writeln("  return code is {0} and no output or error given".format(execResult.returnCode), force = self._failAfterError)
+				if (execResult.returnCode == ExecResult.TIMEOUT):
+					self.writeln("  TIMEOUT", force = self._failAfterError)
+				else:
+					self.writeln("  return code is {0} and no output or error given".format(execResult.returnCode), force = self._failAfterError)
 				if (self._failAfterError):
 					testr.fatalError("Terminating after a test error.")
 				return
@@ -98,7 +104,7 @@ class Module(BaseModule):
 					self.failed[self._tlocal.tidx] += 1
 					self.writeln("-------------------------------------------------------------------------------------------------", force = self._failAfterError)
 					self.writeln("FAILED  Test {0} from file {1} failed to execute for target {2}:".format(test.name(), test.filename(), target.name()), force = self._failAfterError)
-					self.writeln("    " + "\n    ".join([ i.rstrip() for i in msg.split("\n")]), force = self._failAfterError)
+					self.writeln("  " + "\n  ".join([ i.rstrip() for i in msg.split("\n")]), force = self._failAfterError)
 					self.writeln("  Output:", force = self._failAfterError)
 					self.writeln("    " + "\n    ".join([ i.rstrip() for i in output.split("\n")]), force = self._failAfterError)
 					self.writeln("  Error:", force = self._failAfterError)

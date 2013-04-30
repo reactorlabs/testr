@@ -1,5 +1,33 @@
 #!# tests for graal and PE, starting from the simplest ones to the more advanced
 
+#! 
+f1 <- function(x) {
+  f2(x)
+  f2(x)
+}
+f2 <- function(x) {
+  x
+}
+a = 1
+a = a + f1(a)
+a = a + f1(a)
+a
+
+
+
+#! test test test test tests
+#!t 5 5 5
+f1 <- function() {
+  f2 <- function() {
+    a
+  }
+  a = 5
+  f2()
+  f2()
+}
+f1()
+
+
 #! a program without any function
 #!t 1
 a <- 1

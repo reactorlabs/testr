@@ -58,10 +58,10 @@ class BaseTarget:
 			testr.writeln("  path changed to {0}".format(value))
 			self.path = value
 		elif (name in ("arg", "a")):
-			if (self.arguments == self.defaultArguments()):
-				self.arguments = [value,]
+			if (self.cmdArguments == self.defaultCmdArguments()):
+				self.cmdArguments = [value,]
 			else: # multiple default arguments can be concatenated
-				self.arguments.append(value)
+				self.cmdArguments.append(value)
 		else:
 			return False
 		return True

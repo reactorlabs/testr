@@ -23,10 +23,10 @@ def assertOutput(output, expected, fromEnd = True):
 	""" Checks that the output is the expected one. If partial is true, the check passes even if the actual output only contains the expected text. """
 	if (fromEnd):
 		if (output[-len(expected):] != expected):
-			return "Expected string not found at the end of the output:\nExpected:\n    %s " % (expected)
+			return "Expected string not found at the end of the output:\nExpected:\n  %s " % (expected)
 	else:
 		if (output != expected):
-			return "Expected string not identical with formatted output:\nExpected:\n    %s " % (expected)
+			return "Expected string not identical with formatted output:\nExpected:\n  %s " % (expected)
 
 
 def assertOutputIsOnlyTrue(output, fromEnd = True):
