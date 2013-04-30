@@ -1,5 +1,15 @@
 #!# tests for graal and PE, starting from the simplest ones to the more advanced
 
+#! HAHA
+f <- function(x) {
+  x
+}
+a <- 0
+a <- a + f(1)
+a <- a + f(2)
+a
+
+
 #!
 #!t 4
 f1 <- function(x) {

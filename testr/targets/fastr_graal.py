@@ -1,6 +1,7 @@
 
 from . import fastr
 
+import testr
 
 class Target(fastr.Target):
 
@@ -19,4 +20,6 @@ class Target(fastr.Target):
 			if (l.find("[truffle]") != 0):
 				if (l):
 					output += line+"\n"
+			else:
+				testr.writeln(l)
 		return output

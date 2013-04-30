@@ -35,7 +35,8 @@ class BaseTarget:
 	   
 	    Call the inherited __init__ method also from specific targets. """
 		self.path = self.defaultPath()
-		self.cmdArguments =self.defaultCmdArguments()
+		self.cmdArguments = self.defaultCmdArguments()
+		self._displayFullCommand = False
 
 	def defaultPath(self):
 		""" Returns the default path of the target, which will be used if no other path is specified. This method must be overriden in subclasses of specific targets. """
@@ -62,6 +63,8 @@ class BaseTarget:
 				self.cmdArguments = [value,]
 			else: # multiple default arguments can be concatenated
 				self.cmdArguments.append(value)
+		elif (name in ('displayCmd', 'dc')):
+			self._displayFullCommand = True if value else False
 		else:
 			return False
 		return True
@@ -90,6 +93,12 @@ class BaseTarget:
 
 	def finalize(self):
 		pass
+
+
+	def _exec(self, cmd, args = (), input = None, timeout = 600):
+		if (self._displayFullCommand):
+			testr.writeln(self.name()+": "+self.path+" "+" ".join(args))
+		return cmd.run(args,input,timeout)
 
 	def exec(self, test):
 		""" Runs the given test on the target and returns an ExecResult object.

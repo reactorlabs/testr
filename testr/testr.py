@@ -34,7 +34,7 @@ def readArgument(arg):
 	""" Parses the given argument to a name/value tuplet. The argument must be in form of {-}NAME[=VALUE]. If the =VALUE is not present, the value of the argument is True. If the value is "false", the false boolean value will be returned."""
 	while (arg[0] == "-"): # get rid of the initial hyphens, if any
 		arg = arg[1:]
-	s = arg.split("=")
+	s = arg.split("=",1)
 	if (len(s) == 1):
 		writeln("  parsed argument {0} with value {1}".format(s[0],"True"))
 		return (s[0], True)

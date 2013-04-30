@@ -39,7 +39,7 @@ class Target(BaseTarget):
 	def exec(self, test):	
 			""" Runs the given test on the target and returns an ExecResult object. """
 #		try:
-			stdout,stderr,rc,time = self.command.run(args = self.cmdArguments, input = test.code())
+			stdout,stderr,rc,time = self._exec(self.command,args = self.cmdArguments, input = test.code())
 			if (time == "TIMEOUT"):
 				return ExecResult(self,ExecResult.TIMEOUT,0,0,"","")
 			# the execution was a success, clean the output
