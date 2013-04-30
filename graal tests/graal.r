@@ -1,6 +1,7 @@
 #!# tests for graal and PE, starting from the simplest ones to the more advanced
 
-#! 
+#!
+#!t 4
 f1 <- function(x) {
   f2(x)
   f2(x)

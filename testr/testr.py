@@ -50,12 +50,12 @@ def readArgumentFile(filename, args):
 	writeln("  reading arguments from file ",filename)
 	f = open(filename,"r")
 	for line in f:
-		lien = line.strip()
+		line = line.strip()
 		if (not line):
 			continue
 		if (line[0] == "#"):
 			continue
-		name, value = readArgument(line.strip())
+		name, value = readArgument(line)
 		if (name in ("include", "i")):
 			readArgumentFile(filename, args)
 		else:

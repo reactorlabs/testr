@@ -10,7 +10,7 @@ class ExecResult:
 	# target execution was a failure, that is the target did not start up properly
 	FAIL = -1
 	# target execution was terminated due to too long execution
-	TIMEOUT = -2
+	TIMEOUT = "TIMEOUT"
     # the execution should be retried
 	RETRY = "retry"
 

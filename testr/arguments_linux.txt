@@ -1,13 +1,16 @@
--n=1
-#-verbose
-#-t=fastr
-#-p=R
-#-n=4
+
 -t=fastr_graal
 -p=fastr_enterprise_graal
--a=-G:TruffleCompilationThreshold=1
-#-m=timer
 -m=test
--of=graal_out.txt
--showCodeOnError
--suite=/home/peta/devel/work/testr/graal tests
+-suite=/home/peta/devel/work/testr/graal tests/binarytrees-naive.r
+#-suite=/home/peta/devel/work/testr/graal tests/nbody.r
+
+
+#-n=1
+#-t=fastr_graal
+#-p=fastr_enterprise_graal
+#-a=-G:TruffleCompilationThreshold=1
+#-m=test
+#-of=graal_out.txt
+#-showCodeOnError
+#-suite=/home/peta/devel/work/testr/graal tests

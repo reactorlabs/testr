@@ -41,7 +41,7 @@ class Command:
 		self.command = command
 
 
-	def run(self, args = (), input = None, timeout = 30):
+	def run(self, args = (), input = None, timeout = 600):
 		""" Executes the command with given arguments, possible input, and a timeout in seconds. Returns tuple consisting of standard output and error strings of the command, the return code from Command.Result enum and the duration of the execution. """
 
 		def runner(rec):
