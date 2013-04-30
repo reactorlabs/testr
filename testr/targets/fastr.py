@@ -45,7 +45,7 @@ class Target(BaseTarget):
 			# the execution was a success, clean the output
 			stdout = self._extractOutput(stdout)
 			new_stderr = ""
-			time = None
+			vmTime = None
 			for line in stderr.split("\n"):
 				line = line.strip()
 				if (not line):
@@ -58,14 +58,14 @@ class Target(BaseTarget):
 					continue
 				if (line.find("(stdin): Elapsed") == 0):
 					#(stdin): Elapsed 1313 microseconds
-					time = float(line.split(" ")[2]) / 1000000
+					vmTime = float(line.split(" ")[2]) / 1000000
 					continue
 				new_stderr += line + "\n"
 			# return the exec result with no additional values
-			if (time == None):
+			if (vmTime == None):
 				return ExecResult(self, ExecResult.PASS, time, rc, stdout, new_stderr)
 			else:
-				return ExecResult(self, ExecResult.PASS, time, rc, stdout, new_stderr, vmTime = time)
+				return ExecResult(self, ExecResult.PASS, time, rc, stdout, new_stderr, vmTime = vmTime)
 
 #		except:
 			return ExecResult(self,ExecResult.FAIL, 0, 0, "", "")

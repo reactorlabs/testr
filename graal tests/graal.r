@@ -1,12 +1,67 @@
 #!# tests for graal and PE, starting from the simplest ones to the more advanced
 
-#! HAHA
-f <- function(x) {
-  x
+#! PERF
+#!g size=(10 # 100 # 1000 # 5000 # 10000 # 50000 # 100000 # 500000 # 1000000 # 5000000 # 10000000 # 50000000 # 100000000)
+f1 <- function(c,d) {
+  if (c < d) {
+    c
+  } else {
+    d
+  }
+}
+f2 <- function(a,b) {
+  a + f1(a,b)
+}
+ftest <- function() {
+  t = _timerStart()
+  a = 0
+  for (i in 1:@size) {
+    a = a + f2(3,4)
+    a = a - f2(3,4)
+  }
+  t
+}
+ftest()
+t = ftest()
+_timerEnd(t,"tmr")
+
+
+
+
+
+
+#! nested function call with only constants HAHA
+#!t 6 6
+f1 <- function() {
+  6
+}
+f2 <- function() {
+  f1()
+}
+
+f2()
+f2()
+
+
+#! addition of two constants in function
+#!t 10
+f <- function(a,b) {
+  a + b
 }
 a <- 0
-a <- a + f(1)
-a <- a + f(2)
+a <- a + f(1,2)
+a <- a + f(3,4)
+a
+
+#! addition of two constants in function
+#!# constant folding does not work here because the field in scalar impls is not final
+#!t 4
+f <- function() {
+  1 + 1
+}
+a <- 0
+a <- a + f()
+a <- a + f()
 a
 
 

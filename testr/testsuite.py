@@ -166,8 +166,8 @@ class Test(BaseTest):
 		idxs = []
 		if (self._tp._genericOrder):
 			for g in self._tp._genericOrder:
-				idxs.append(str(g._idx))
-			self._name = self._tp._name + " [{0}]".format(" ".join(idxs))
+				idxs.append(str(g.name+"="+str(g.values[g._idx])))
+			self._name = self._tp._name + " [{0}]".format(", ".join(idxs))
 		else:
 			self._name = self._tp._name
 		self._pre = preBuildTests[:]

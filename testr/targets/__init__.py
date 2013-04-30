@@ -37,6 +37,7 @@ class BaseTarget:
 		self.path = self.defaultPath()
 		self.cmdArguments = self.defaultCmdArguments()
 		self._displayFullCommand = False
+		self._displayOutput = False
 
 	def defaultPath(self):
 		""" Returns the default path of the target, which will be used if no other path is specified. This method must be overriden in subclasses of specific targets. """
@@ -65,6 +66,8 @@ class BaseTarget:
 				self.cmdArguments.append(value)
 		elif (name in ('displayCmd', 'dc')):
 			self._displayFullCommand = True if value else False
+		elif (name in ('displayOutput', 'do')):
+			self._displayOutput = True if value else False
 		else:
 			return False
 		return True
@@ -98,7 +101,12 @@ class BaseTarget:
 	def _exec(self, cmd, args = (), input = None, timeout = 600):
 		if (self._displayFullCommand):
 			testr.writeln(self.name()+": "+self.path+" "+" ".join(args))
-		return cmd.run(args,input,timeout)
+		result = cmd.run(args,input,timeout) 
+		if (self._displayOutput):
+			testr.writeln(self.name()+": output: ")
+			testr.writeln("  "+"\n  ".join(result[0].split("\n")))
+		return result
+		
 
 	def exec(self, test):
 		""" Runs the given test on the target and returns an ExecResult object.
