@@ -19,16 +19,11 @@ ftest <- function() {
     a = a + f2(3,4)
     a = a - f2(3,4)
   }
-  t
+#  t
 }
 ftest()
 t = ftest()
 _timerEnd(t,"tmr")
-
-
-
-
-
 
 #! nested function call with only constants HAHA
 #!t 6 6

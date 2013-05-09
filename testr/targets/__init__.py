@@ -105,6 +105,9 @@ class BaseTarget:
 		if (self._displayOutput):
 			testr.writeln(self.name()+": output: ")
 			testr.writeln("  "+"\n  ".join(result[0].split("\n")))
+			if (result[1]):
+				testr.writeln(self.name()+": error: ")
+				testr.writeln("  "+"\n  ".join(result[1].split("\n")))
 		return result
 		
 

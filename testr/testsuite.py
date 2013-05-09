@@ -241,7 +241,7 @@ class TestParser:
 				self._name = "{0} ({1})".format(self._baseName, str(i))
 			i = i + 1
 			# check if generics are in use
-			if (self._genericPossibilities == 1):
+			if (not self._generics):
 				yield Test(self, self._code, self._commandLines, self._preRun, self._postRun)
 			else:
 				# enumerate all nondependent generics in order
@@ -443,6 +443,7 @@ class GenericArgument:
 
 	def __init__(self, name, values, dependsOn = False):
 		""" Creates the argument as an independent argument with given name and values. Initializes to its first value. """
+		#print("created generic argument {0} with value {1}".format(name, values))
 		self.name = name
 		self.values = values
 		self._idx = 0

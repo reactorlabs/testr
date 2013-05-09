@@ -1,4 +1,6 @@
 #! b25-prog-4
+#!#g size = (10 # 50 # 100 # 500 # 1000)
+#!g size = (10)
 
 # extracted from R Benchmark 2.5 (06/2008) [Simon Urbanek]
 # http://r.research.att.com/benchmarks/R-benchmark-25.R
@@ -7,6 +9,7 @@
 # Creation of a 500x500 Toeplitz matrix (loops)
 
 b25prog <- function(args) {
+  t = _timerStart()
   runs = if (length(args)) as.integer(args[[1]]) else 105L
 
   for (i in 1:runs) {
@@ -22,7 +25,9 @@ b25prog <- function(args) {
       }
     }
   }
+  t
 }
 
-b25prog(105)
-b25prog(105)
+b25prog(@size)
+t = b25prog(@size)
+_timerEnd(t,"tmr")

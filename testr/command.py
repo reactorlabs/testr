@@ -62,6 +62,12 @@ class Command:
 			return ("","",Command.TIMEOUT, Command.TIMEOUT)
 		else:
 			rc = rec.proc.returncode
-			stdout = rec.procOutput[0].decode("UTF-8")
-			stderr = rec.procOutput[1].decode("UTF-8")
+			try:
+			    stdout = rec.procOutput[0].decode("UTF-8")
+			except:
+				stdout = "NOT AN UTF-8 DECODABLE OUTPUT"
+			try:
+				stderr = rec.procOutput[1].decode("UTF-8")
+			except:
+				stderr = "NOT AN UTF_8 DECODABLE ERROR"
 			return (stdout, stderr, rc, rec.time)

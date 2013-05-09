@@ -1,7 +1,5 @@
-#! binary trees naive
-#!t stretch tree of depth 11 check: -1 2048 trees of depth 4 check -2048 512 trees of depth 6 check -512 128 trees of depth 8 check -128 32 trees of depth 10 check -32 long lived tree of depth 10 check: -1 NULL
-
-
+#! binarytrees-2
+#!g size = (2L)
 
 # ------------------------------------------------------------------
 # The Computer Language Shootout
@@ -21,8 +19,9 @@ tree <- function(item, depth) {
 check <- function(tree)
     if(is.na(tree[[2]][[1]])) tree[[1]] else tree[[1]] + check(tree[[2]]) - check(tree[[3]])
 
-binarytrees_naive <- function(args) {
-    n = if(length(args)) as.integer(args[[1]]) else 10L
+binarytrees_2 <- function(args) {
+    t = _timerStart()
+    n = if (length(args)) as.integer(args[[1]]) else 10L
 
     min_depth <- 4
     max_depth <- max(min_depth + 2, n)
@@ -35,15 +34,17 @@ binarytrees_naive <- function(args) {
 
     for (depth in seq(min_depth, max_depth, 2)) {
         iterations <- as.integer(2^(max_depth - depth + min_depth))
-        chk_sum <- 0L
-        for (i in 1:iterations)
-        chk_sum <- chk_sum + check(tree(i, depth)) + check(tree(-i, depth))
-        cat(sep="", iterations * 2L, "\t trees of depth ", depth, "\t check ",
-            chk_sum, "\n")
+        check_sum <- sum(sapply(
+                1:iterations, 
+                function(i) check(tree(i, depth)) + check(tree(-i, depth))))
+        cat(sep="", iterations * 2L, "\t trees of depth ", depth, "\t check: ",
+            check_sum, "\n")
     }
 
     cat(sep="", "long lived tree of depth ", max_depth, "\t check: ", 
         check(long_lived_tree), "\n")
+    t
 }
 
-binarytrees_naive(10)
+binarytrees_2(@size)
+_timerEnd(binarytrees_2(@size),"tmr")
