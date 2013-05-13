@@ -1,5 +1,5 @@
-#! nbody-2--BUG BUG
-#!g size = (20L)
+#! nbody-naive-2
+#!g size = (2L # 5L # 10L # 20L # 40L # 80L # 160L # 320L # 640L # 1280L)
 
 # ------------------------------------------------------------------
 # The Computer Language Shootout
@@ -78,21 +78,27 @@ advance <- function(dt) {
             drr[i, j,] <- body_r[,i] - body_r[,j]
         }
     }
-
-    distance <- sqrt(t(colSums(aperm(drr * drr))))
-    mag <- dt / (distance * distance * distance)  # ~fast as distance^3
-    diag(mag) <- 0
-    for (d in 1:3)
-        body_v[d,] <<- body_v[d,] - as.vector((drr[,,d] * mag) %*% body_mass)
-
-    body_r <<- body_r + dt * body_v
+    for (i in 1:(n_bodies - 1)) {
+        j_from <- min(i + 1, n_bodies)
+        for (j in j_from:n_bodies) {
+            dr <- body_r[, i] - body_r[, j]
+            distance <- sqrt(sum(dr * dr))
+            mag <- dt / (distance * distance * distance)
+            body_v[, i] <<- body_v[, i] - dr * body_mass[[j]] * mag
+            body_v[, j] <<- body_v[, j] + dr * body_mass[[i]] * mag
+        }
+    }
+    for (i in 1:n_bodies)
+        body_r[, i] <<- body_r[, i] + dt * body_v[, i]
 }
 
 energy <- function() {
+    # this is only called twice, so the way of implementing it is not important
     drr <- array(dim=c(n_bodies, n_bodies, 3))
     for (i in 1:n_bodies) {
-        for (j in 1:n_bodies)
+        for (j in 1:n_bodies) {
             drr[i, j,] <- body_r[,i] - body_r[,j]
+        }
     }
     distance <- sqrt(t(colSums(aperm(drr * drr))))
     q <- (body_mass %o% body_mass) / distance
@@ -100,7 +106,7 @@ energy <- function() {
            sum(q[upper.tri(q)]))
 }
 
-nbody_2 <- function(args) {
+nbody_naive2 <- function(args) {
     timer = _timerStart()
     n = if (length(args)) as.integer(args[[1]]) else 1000L
     options(digits=9)
@@ -112,6 +118,5 @@ nbody_2 <- function(args) {
     timer
 }
 
-nbody_2(@size)
-nbody_2(@size)
-_timerEnd(nbody_2(@size),"tmr")
+nbody_naive2(@size)
+_timerEnd(nbody_naive2(@size),"tmr")

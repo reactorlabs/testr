@@ -1,5 +1,5 @@
-#! nbody-2--BUG BUG
-#!g size = (20L)
+#! nbody-2
+#!g size = (2L # 5L # 10L # 20L # 40L # 80L # 160L # 320L # 640L # 1280L)
 
 # ------------------------------------------------------------------
 # The Computer Language Shootout
@@ -112,6 +112,5 @@ nbody_2 <- function(args) {
     timer
 }
 
-nbody_2(@size)
 nbody_2(@size)
 _timerEnd(nbody_2(@size),"tmr")
