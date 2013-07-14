@@ -163,14 +163,14 @@ b = a[-2,c(-1,-2)]
 length(b) 
 b
 
-# negative index can be selected multiple times with no additional effect
+#! negative index can be selected multiple times with no additional effect
 #!t 2 7 9
 a = matrix(1:9, 3,3)
 b = a[c(-2,-2),c(-1,-2)]
 length(b) 
 b
 
-# negative indices always display remaining values in order they were created
+#! negative indices always display remaining values in order they were created
 #!g V = (c(-1, -3, -5) # c(-1, -5, -3) # c(-3, -1, -5) # c(-3, -5, -1) # c(-5, -1, -3) # c(-5, -3, -1))
 #!t 2 2 4
 a = matrix(1:20, 5,2)
@@ -178,7 +178,7 @@ b = a[@V,1]
 length(b)
 b 
 
-# zeroes have no effect within negative indices
+#! zeroes have no effect within negative indices
 #!g V = (c(0, -1, -3, -5) # c(-1, 0, -5, -3) # c(-3, -1, 0, -5) # c(-3, -5, -1, 0) # c(0, -5, -1, -3, 0) # c(0, 0, -5,0,0 -3, -1, 0, 0))
 #!t 2 2 4
 a = matrix(1:10, 5,2)
@@ -186,7 +186,7 @@ b = a[@V,1]
 length(b)
 b 
 
-# negative indices out of bounds have no effect
+#! negative indices out of bounds have no effect
 #!g V = (c(-1, -7, -3, -5) # c(-10, -1, -5, -3) # c(-3, -1, -5, -20))
 #!t 2 2 4
 a = matrix(1:10, 5,2)

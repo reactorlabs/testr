@@ -68,6 +68,7 @@ class Module(BaseModule):
 		if (tl.midx < self._measurements):
 			return ExecResult.RETRY
 		else:
+			tl.midx = 0 # reset the measurements
 			with (self._lock):
 				if (tl.ttimeTmr != 0):
 					tl.results.append((tl.ttime / self._measurements, tl.ttimeTmr / self._measurements))

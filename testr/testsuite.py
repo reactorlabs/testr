@@ -224,6 +224,8 @@ class TestParser:
 			self._preRun = []
 			self._postRun = []
 			self._code = "\n".join(code)
+			if (self._code[-1] != '\n'):
+				self._code += "\n"
 			self._checkedOutput = False
 			self._commandLines = commands
 			# set the decoder to its default 

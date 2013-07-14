@@ -1,93 +1,5 @@
 #!# tests for graal and PE, starting from the simplest ones to the more advanced
 
-#! PERF
-#!g size=(10 # 100 # 1000 # 5000 # 10000 # 50000 # 100000 # 500000 # 1000000 # 5000000 # 10000000 # 50000000 # 100000000)
-f1 <- function(c,d) {
-  if (c < d) {
-    c
-  } else {
-    d
-  }
-}
-f2 <- function(a,b) {
-  a + f1(a,b)
-}
-ftest <- function() {
-  t = _timerStart()
-  a = 0
-  for (i in 1:@size) {
-    a = a + f2(3,4)
-    a = a - f2(3,4)
-  }
-#  t
-}
-ftest()
-t = ftest()
-_timerEnd(t,"tmr")
-
-#! nested function call with only constants HAHA
-#!t 6 6
-f1 <- function() {
-  6
-}
-f2 <- function() {
-  f1()
-}
-
-f2()
-f2()
-
-
-#! addition of two constants in function
-#!t 10
-f <- function(a,b) {
-  a + b
-}
-a <- 0
-a <- a + f(1,2)
-a <- a + f(3,4)
-a
-
-#! addition of two constants in function
-#!# constant folding does not work here because the field in scalar impls is not final
-#!t 4
-f <- function() {
-  1 + 1
-}
-a <- 0
-a <- a + f()
-a <- a + f()
-a
-
-
-#!
-#!t 4
-f1 <- function(x) {
-  f2(x)
-  f2(x)
-}
-f2 <- function(x) {
-  x
-}
-a = 1
-a = a + f1(a)
-a = a + f1(a)
-a
-
-
-
-#! test test test test tests
-#!t 5 5 5
-f1 <- function() {
-  f2 <- function() {
-    a
-  }
-  a = 5
-  f2()
-  f2()
-}
-f1()
-
 
 #! a program without any function
 #!t 1
@@ -529,11 +441,6 @@ f <- function(x) {
 f(3)
 f(4)
 f(FALSE)
-
-#!# TODO more deoptimize tests
-
-
-
 
 
 

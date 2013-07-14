@@ -1,16 +1,86 @@
+#-t=fastr
+#-t=fastr_graal
+#-a=-G:Dump=Truffle
+#-displayOutput
+#-displayCmd
+#-a=-G:+TruffleInlinePrinter
+#-a=-G:+TraceTruffleCompilationDetails
+#-a=-G:TruffleCompilationThreshold=1
+#-a=-XX:+TraceDeoptimization
+#-suite=/home/peta/devel/work/testr/graal tests/simpleloop.r
+#-m=timer
+#-timer=tmr
+#-measurements=1
 
--t=fastr_graal
--p=fastr_enterprise_graal
--m=test
--suite=/home/peta/devel/work/testr/graal tests/binarytrees-naive.r
-#-suite=/home/peta/devel/work/testr/graal tests/nbody.r
+
+#-t=gnur_linux
+#-t=fastr
+#-t=fastr_graal
+#-a=-G:Dump=Truffle
+#-a=-esa
+#-a=-ea
+#-displayOutput
+#-pti=false
+#-p=fastr_enterprise_graal
+#-a=-G:+TruffleInlinePrinter
+#-a=-G:+TraceTruffleCompilationDetails
+#-a=-G:TruffleCompilationThreshold=1
+#-suite=/home/peta/devel/work/testr/graal tests/shootout working
+#-suite=/home/peta/devel/work/testr/graal tests/
+#-m=timer
+#-timer=tmr
+#-of=perftest2.txt
+#-measurements=1
+#-wl=Isok
+#-wl=features
+#-wl=fasta-naive-2
+#-wl=BUG
 
 
-#-n=1
+## This is to run graal tests single
+
 #-t=fastr_graal
 #-p=fastr_enterprise_graal
-#-a=-G:TruffleCompilationThreshold=1
+#-a=-G:Dump=Truffle
+#-a=-G:+TraceTruffleCompilationDetails
+#-a=-G:+TruffleInlinePrinter
+#-a=-G:TruffleCompilationThreshold=2
+#-displayCmd
 #-m=test
-#-of=graal_out.txt
-#-showCodeOnError
-#-suite=/home/peta/devel/work/testr/graal tests
+#-suite=/home/peta/devel/work/testr/graal tests/graal.r
+#-bl=DELETE
+#-bl=PERF
+
+## This is to run graal & fastr performance test on the simple benchmark I have created
+
+#-t=fastr
+#-t=fastr_graal
+#-p=fastr_enterprise_graal
+#-displayOutput
+#-a=-G:Dump=Truffle
+#-a=-G:TruffleCompilationThreshold=2
+#-a=-G:+TraceTruffleCompilationDetails
+#-a=-G:+TruffleInlinePrinter
+#-m=timer
+#-timer=tmr
+#-measurements=1
+#-suite=/home/peta/devel/work/testr/graal tests/benchmarks_working.r
+#-wl=scalar
+
+#-t=gnur_linux
+#-t=fastr-new
+#-t=renjin
+#-m=test
+#-suite=/home/peta/devel/work/testr/language tests
+#-suite=/home/peta/delete/test.r
+#-n=4
+
+#-t=gnur_linux
+#-t=fastr
+#-t=fastr_graal
+#-p=fastr_enterprise_graal
+#-a=-G:TruffleCompilationThreshold=2
+#-t=renjin
+#-m=timer
+#-measurements=1
+#-suite=/home/peta/delete/test.r

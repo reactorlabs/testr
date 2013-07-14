@@ -8,6 +8,7 @@ class Module(BaseModule):
 	def __init__(self):
 		super().__init__()
 		self._lock = threading.Lock()
+		self._files = {}
 
 	def initialize(self, targets):
 		testr.writeln("  initializing module counter")
@@ -17,9 +18,15 @@ class Module(BaseModule):
 
 	def analyze(self, test, execResult):
 		with self._lock:
-		    self.count += 1
+			self.count += 1
+			fn = "/".join(test.filename().split("/")[7:-1])
+			if (fn not in self._files):
+				self._files[fn] = 0
+			self._files[fn] += 1
 
 	def finalize(self):
+		for fn in self._files.keys():
+			self.writeln("%-120s %s" % (fn, self._files[fn]))
 		self.writeln("\n----- counter module report -----\n", force = True)
 		self.writeln("  Total {0} tests found.".format(self.count), force = True)
 

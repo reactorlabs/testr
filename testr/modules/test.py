@@ -21,6 +21,7 @@ class Module(BaseModule):
 		self._showOnlyErrors = False
 		self._failAfterError = False
 		self._showCodeOnError = False
+		self._files = {}
 
 	def initialize(self, targets):
 		testr.writeln("  initializing module test")
@@ -64,12 +65,17 @@ class Module(BaseModule):
 		# run the preconditions - if they fail, the test is marked as skipped
 		for cmd in test.preRunCommands():
 			msg = eval(cmd)
-			if (msg):
-				with (self._lock):
-					self.skipped[self._tlocal.tidx] += 1
-					self.writeln("SKIPPED Test {0} from file {1} skipped for target {2}:".format(test.name(), test.filename(), target.name()))
-					self.writeln("  {0}".format(msg))
-					return
+#			if (msg):
+#				with (self._lock):
+#					self.skipped[self._tlocal.tidx] += 1
+#					self.writeln("SKIPPED Test {0} from file {1} skipped for target {2}:".format(test.name(), test.filename(), target.name()))
+#					self.writeln("  {0}".format(msg))
+#					self.markAsSkip(test)
+#					return
+		if (execResult.stderr.find("at r.")!=-1):
+			execResult.result = "NOT IMPLEMENTED YET"
+		if (execResult.stderr.find("at org.renjin.")!=-1):
+			execResult.result = "NOT IMPLEMENTED YET"
 		# check that the execution was a success
 		if (execResult.result != ExecResult.PASS):
 			with (self._lock):
@@ -81,6 +87,7 @@ class Module(BaseModule):
 					self.writeln("  {0}".format(execResult.result), force = self._failAfterError)
 				if (self._failAfterError):
 					testr.fatalError("Terminating after a test error.")
+				self.markAsExecFail(test)
 				return
 		# check that the execution code is a success or a stderr or stdout are present
 		output = execResult.stdout
@@ -95,6 +102,7 @@ class Module(BaseModule):
 					self.writeln("  return code is {0} and no output or error given".format(execResult.returnCode), force = self._failAfterError)
 				if (self._failAfterError):
 					testr.fatalError("Terminating after a test error.")
+				self.markAsFail(test)
 				return
 		# run the post condition checks
 		for cmd in test.postRunCommands():
@@ -115,14 +123,45 @@ class Module(BaseModule):
 					self.writeln("-------------------------------------------------------------------------------------------------", force = self._failAfterError)
 					if (self._failAfterError):
 						testr.fatalError("Terminating after a test error.")
+					self.markAsFail(test)
 					return
 		# all done ok, write as success
 		with (self._lock):
 			self.passed[self._tlocal.tidx] += 1
 			if (not self._showOnlyErrors):
 				self.writeln("PASSED  Test {0} from file {1} passed for target {2}".format(test.name(), test.filename(), target.name()))
+			self.markAsPass(test)
+
+	def markAsFail(self, test):
+		
+		fn = "/".join(test.filename().split("/")[7:])
+		if (fn not in self._files):
+			self._files[fn] = [0,0,0,0]
+		self._files[fn][2] += 1
+
+	def markAsExecFail(self, test):
+		fn = "/".join(test.filename().split("/")[7:])
+		if (fn not in self._files):
+			self._files[fn] = [0,0,0,0]
+		self._files[fn][3] += 1
+
+	def markAsSkip(self, test):
+		fn = "/".join(test.filename().split("/")[7:])
+		if (fn not in self._files):
+			self._files[fn] = [0,0,0,0]
+		self._files[fn][1] += 1
+
+	def markAsPass(self, test):
+		fn = "/".join(test.filename().split("/")[7:])
+		if (fn not in self._files):
+			self._files[fn] = [0,0,0,0]
+		self._files[fn][0] += 1
+
 
 	def finalize(self):
+		for fn in self._files.keys():
+			x = self._files[fn]
+			self.writeln("%-50s %5s %5s %5s %5s %5s" % (fn, x[0], x[1], x[2], x[3], x[0] + x[1] + x[2] + x[3]))
 		self.writeln("\n----- test module report -----\n", force = True)
 		self.writeln("  target                             | passed | skipped | failed | exec failed", force = True)
 		self.writeln("  ----------------------------------------------------------------------------", force = True)

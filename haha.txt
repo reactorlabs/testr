@@ -1,0 +1,25 @@
+FAILED  Test warning is given if length(dim) is 0 from file language tests/builtins\array.r failed to execute for target gnur32:
+  Expected warning use of 0-length dim is deprecated, but the following stderr found: Error in array(1, vector()) : 'dims' cannot be of length 0
+Execution halted
+
+  Output:
+
+  Error:
+Error in array(1, vector()) : 'dims' cannot be of length 0    Execution halted    
+FAILED  Test warning is given if length(dim) is 0 from file language tests/builtins\array.r failed to execute for target gnur64:
+  Expected warning use of 0-length dim is deprecated, but the following stderr found: Error in array(1, vector()) : 'dims' cannot be of length 0
+Execution halted
+
+  Output:
+
+  Error:
+Error in array(1, vector()) : 'dims' cannot be of length 0    Execution halted    
+
+----- test module report -----
+
+  target                             | passed | skipped | failed | exec failed
+  ----------------------------------------------------------------------------
+  gnur32                             |     50 |       0 |      1 |           0
+  gnur64                             |     50 |       0 |      1 |           0
+
+  Total tests: 51

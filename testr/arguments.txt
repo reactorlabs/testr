@@ -1,12 +1,5 @@
 #-verbose
-#-t=gnur32
-#-p=R
--t=gnur_linux
--p=R
--n=1
-#-m=timer
+-t=gnur32
+#-t=gnur64
+-suite=sandbox/test.r
 -m=test
-#-of=haha.txt
-#-showOnlyErrors
--suite=sandbox/multithreaded.r
-#-suite=language tests/builtins
