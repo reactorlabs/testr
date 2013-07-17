@@ -1,0 +1,7 @@
+#!/bin/bash
+export FASTR_HOME=/home/peta/devel/work/fastr
+
+export TRUFFLE_API=$FASTR_HOME/lib/truffle-api-03-16-2013.jar
+export CP=$FASTR_HOME/bin:$FASTR_HOME/lib/antlr-runtime-3.5.jar:$FASTR_HOME/lib/arpack_combined_all.jar:$FASTR_HOME/lib/junit-4.8.jar:$FASTR_HOME/lib/netlib-java-0.9.3.jar:$TRUFFLE_API:$FASTR_HOME/lib/jline-2.12.jar:$FASTR_HOME/lib/javassist.jar
+
+java -cp $CP r/fastr "$@"

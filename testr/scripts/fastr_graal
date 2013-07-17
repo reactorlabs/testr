@@ -1,0 +1,16 @@
+#!/bin/bash
+export FASTR_HOME=/home/peta/devel/work/fastr
+export GRAAL_HOME=/home/peta/devel/work/graal
+
+export PATH=$PATH:$GRAAL_HOME/mxtool
+
+export TRUFFLE_API=$GRAAL_HOME/graal/com.oracle.truffle.api/bin
+
+export CP=$FASTR_HOME/bin:$FASTR_HOME/lib/antlr-runtime-3.5.jar:$FASTR_HOME/lib/arpack_combined_all.jar:$FASTR_HOME/lib/junit-4.8.jar:$FASTR_HOME/lib/netlib-java-0.9.3.jar:$TRUFFLE_API:$FASTR_HOME/lib/jline-2.12.jar
+
+#-verbose:gc
+
+mx --vm server vm  -cp $CP "$@" r/Console
+
+
+
