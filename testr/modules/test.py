@@ -65,13 +65,13 @@ class Module(BaseModule):
 		# run the preconditions - if they fail, the test is marked as skipped
 		for cmd in test.preRunCommands():
 			msg = eval(cmd)
-#			if (msg):
-#				with (self._lock):
-#					self.skipped[self._tlocal.tidx] += 1
-#					self.writeln("SKIPPED Test {0} from file {1} skipped for target {2}:".format(test.name(), test.filename(), target.name()))
-#					self.writeln("  {0}".format(msg))
-#					self.markAsSkip(test)
-#					return
+			if (msg):
+				with (self._lock):
+					self.skipped[self._tlocal.tidx] += 1
+					self.writeln("SKIPPED Test {0} from file {1} skipped for target {2}:".format(test.name(), test.filename(), target.name()))
+					self.writeln("  {0}".format(msg))
+					self.markAsSkip(test)
+					return
 		if (execResult.stderr.find("at r.")!=-1):
 			execResult.result = "NOT IMPLEMENTED YET"
 		if (execResult.stderr.find("at org.renjin.")!=-1):
