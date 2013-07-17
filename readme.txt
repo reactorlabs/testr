@@ -53,11 +53,24 @@ To use fastr, use fastr-new for master branch, and fastr for branch truffle-api.
 Modules
 -------
 
+A module must be specified for testR to actually do anything (without a module, testR only silently iterates over the tests doing nothing with them). 
+
 Similarly there is a number of modules, each of them defined in the modules package, which is also a good place to look for more advanced arguments. The following should be understood by all modules:
 
 -outputFile= redirects all output from the module to the given file. 
 
 Module timer has additional arguments, notably the -measurements= argument that specifies the number of executions of each test. 
+
+Test Module
+-----------
+
+Test module has the additional arguments:
+
+-showOnlyErrors, or -soe : only tests that have failed or are skipped will be displayed - by default all tests are displayed. 
+
+-failAfterError, or -fae : exits testR after first failing test. Default is to analyze all tests. 
+
+-showCodeOnError, or -coe : if there is an error, displays the raw R code that is the test that has failed in the output. 
 
 Tests
 -----
