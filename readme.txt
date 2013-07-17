@@ -48,6 +48,8 @@ Different targets can have additional arguments. For those it is best to consult
 
 Please note, that the fastr targets point to a shell file executing fastr itself. Examples of these files can be found in /scripts directory. To use them properly, you should either edit the required paths in the provided examples and then point to them, or make them available at path, or you can always create your own shell files and use them without any problem. 
 
+To use fastr, use fastr-new for master branch, and fastr for branch truffle-api. The fastr-new target deals properly with the new output formatting in the latest fastr builds. 
+
 Modules
 -------
 
