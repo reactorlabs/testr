@@ -87,6 +87,17 @@ The test roots can either be R files themselves, or folders. The folders will be
 
 Tests can be blacklisted or whitelisted based on their names and locations using the -wl and -bl arguments after the -suite commands. 
 
+Tests in the repository:
+------------------------
+
+The following tests can be found in the repository:
+
+language tests -- testR R testing suite, these are the structured tests that aim to cover the R language and provide the reference. Some of them also fail gnu-r (or are skipped for clearer results) as gnu-r is inconsistent with the manual itself (manuals are the R tutorial and the R language reference).
+
+language inconsistencies -- failed tests from language tests, sometimes with more information, aggregated here for simplicity.
+
+graal tests -- several of my tests when I was testing graal with us. They may or may not be relevant to others, as they are pretty much ad hoc versions of shootouts or microbenchmarks I used to play with graal and its various features.  
+
 Examples
 --------
 
